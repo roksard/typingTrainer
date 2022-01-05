@@ -3,16 +3,16 @@ package roksard.typingTrainer;
 import roksard.json_serializer.JsonSerializer;
 
 import javax.swing.*;
+import javax.swing.text.Caret;
+import javax.swing.text.html.HTMLDocument;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
 import java.awt.geom.Ellipse2D;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Future;
@@ -44,12 +44,46 @@ public class Gui {
                     protected void paintComponent(Graphics g) {
                         super.paintComponent(g);
                     }
+
                 };
 
+        HTMLDocument document = new HTMLDocument();
+        //TODO document
 
-        JTextArea jtResult = new JTextArea();
+        JEditorPane jtResult = new JEditorPane();
+        jtResult.setText("Halliehaloe");
+        jtResult.setDocument(document);
         jtResult.setBounds(5, 5, 390, 50);
         jtResult.setBorder(BorderFactory.createEtchedBorder());
+        jtResult.setEditable(false);
+        jtResult.getCaret().setSelectionVisible(true);
+        jtResult.getCaret().setVisible(true);
+        jtResult.getCaret().setDot(3);
+
+
+        KeyListener[] keyListeners = jtResult.getKeyListeners();
+
+        jtResult.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                int caretPosition = jtResult.getCaretPosition();
+                if (caretPosition < jtResult.getText().length()) {
+                    jtResult.moveCaretPosition(caretPosition + 1);
+                    jtResult.setSelectionStart(jtResult.getCaretPosition());
+                }
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
 
 //        ActionListener searchActionListener = new ActionListener() {
 //            @Override
