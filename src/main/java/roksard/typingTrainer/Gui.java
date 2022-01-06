@@ -1,28 +1,21 @@
 package roksard.typingTrainer;
 
-import roksard.json_serializer.JsonSerializer;
-
 import javax.swing.*;
-import javax.swing.text.Caret;
-import javax.swing.text.html.HTMLDocument;
 import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.event.*;
-import java.awt.geom.Ellipse2D;
-import java.io.IOException;
-import java.net.URL;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.Future;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 public class Gui {
     final static String CONFIG_FILE = "settings.p";
 //    final static JsonSerializer<Config> serializer = new JsonSerializer<>(Config.class);
 //    final static Config config = serializer.load(CONFIG_FILE, Config.DEFAULT);
     static JFrame frame;
-    final static String TITLE = "fileSearch by content";
+    static final String TITLE = "fileSearch by content";
+    static final roksard.graphicsAwt.Graphics GRAPHICS = new roksard.graphicsAwt.Graphics();
+    static final Color DARK_GREEN = Color.getHSBColor(0.33f, 1, 0.5f);
+    static final Color RED = Color.RED;
 
     public static void main(String[] args) {
         frame = new JFrame();
@@ -33,43 +26,34 @@ public class Gui {
                 JOptionPane.showMessageDialog(frame, "Error: " + e.toString() + ": " + e.getMessage());
             }
         });
-//        frame.setLocation(config.getX(), config.getY());
         frame.addWindowListener(getMainWindowListener());
-                JPanel jpanel = new JPanel() {
-                    {
-                        setBackground(Color.WHITE);
-                        setPreferredSize(new Dimension(400, 115));
-                    }
-                    @Override
-                    protected void paintComponent(Graphics g) {
-                        super.paintComponent(g);
-                    }
+        MainJPanel jpanel = new MainJPanel();
 
-                };
+        JEditorPane epText = new JEditorPane();
+        epText.setText("Halliehaloe");
+        epText.setBounds(5, 15, 390, 50);
+        epText.setBorder(BorderFactory.createEtchedBorder());
+        epText.setEditable(false);
+        epText.getCaret().setSelectionVisible(true);
+        epText.getCaret().setVisible(true);
+        epText.getCaret().setDot(3);
 
-        HTMLDocument document = new HTMLDocument();
-        //TODO document
-
-        JEditorPane jtResult = new JEditorPane();
-        jtResult.setText("Halliehaloe");
-        jtResult.setDocument(document);
-        jtResult.setBounds(5, 5, 390, 50);
-        jtResult.setBorder(BorderFactory.createEtchedBorder());
-        jtResult.setEditable(false);
-        jtResult.getCaret().setSelectionVisible(true);
-        jtResult.getCaret().setVisible(true);
-        jtResult.getCaret().setDot(3);
-
-
-        KeyListener[] keyListeners = jtResult.getKeyListeners();
-
-        jtResult.addKeyListener(new KeyListener() {
+        epText.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
-                int caretPosition = jtResult.getCaretPosition();
-                if (caretPosition < jtResult.getText().length()) {
-                    jtResult.moveCaretPosition(caretPosition + 1);
-                    jtResult.setSelectionStart(jtResult.getCaretPosition());
+                int caretPosition = epText.getCaretPosition();
+                if (caretPosition < epText.getText().length()) {
+                    Color statusIndicatorColor = jpanel.getStatusIndicatorColor();
+                    if (e.getKeyChar() == epText.getText().charAt(caretPosition)) {
+                        jpanel.setStatusIndicatorColor(DARK_GREEN);
+                    } else {
+                        jpanel.setStatusIndicatorColor(RED);
+                    }
+                    if (!statusIndicatorColor.equals(jpanel.getStatusIndicatorColor()))
+                        jpanel.repaint();
+
+                    epText.moveCaretPosition(caretPosition + 1);
+                    epText.setSelectionStart(epText.getCaretPosition());
                 }
 
             }
@@ -85,24 +69,7 @@ public class Gui {
             }
         });
 
-//        ActionListener searchActionListener = new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                jtResult.setText("...");
-//                frame.setTitle("..." + " - " + TITLE);
-//                jpanel.repaint();
-//                Result result = new Result();
-//                String subString = jtSubString.getText();
-//                Future<Result> future = fileSearch.searchBySubstringAsync(jtDir.getText(), true, subString, result);
-//                runSearchingTimer(frame, future, jtResult, subString);
-//                config.setDirectory(jtDir.getText());
-//                config.setSubString(jtSubString.getText());
-//            }
-//        };
-
-//        jtSubString.addActionListener(searchActionListener);
-
-        jpanel.add(jtResult);
+        jpanel.add(epText);
 
         jpanel.setLayout(null);
         frame.add(jpanel);
