@@ -2,10 +2,7 @@ package roksard.typingTrainer;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
 
 public class Gui {
     final static String CONFIG_FILE = "settings.p";
@@ -16,6 +13,7 @@ public class Gui {
     static final roksard.graphicsAwt.Graphics GRAPHICS = new roksard.graphicsAwt.Graphics();
     static final Color DARK_GREEN = Color.getHSBColor(0.33f, 1, 0.5f);
     static final Color RED = Color.RED;
+    static final Listeners LISTENERS = new Listeners();
 
     public static void main(String[] args) {
         frame = new JFrame();
@@ -70,6 +68,14 @@ public class Gui {
         });
 
         jpanel.add(epText);
+
+        MenuBar menuBar = new MenuBar();
+        Menu menu = new Menu("File");
+        MenuItem menuItem = new MenuItem("Load");
+        menuItem.addActionListener(LISTENERS.fileLoad);
+        menu.add(menuItem);
+        menuBar.add(menu);
+        frame.setMenuBar(menuBar);
 
         jpanel.setLayout(null);
         frame.add(jpanel);
