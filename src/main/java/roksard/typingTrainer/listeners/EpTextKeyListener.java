@@ -1,4 +1,6 @@
-package roksard.typingTrainer;
+package roksard.typingTrainer.listeners;
+
+import roksard.typingTrainer.MainJPanel;
 
 import javax.swing.*;
 import java.awt.*;
