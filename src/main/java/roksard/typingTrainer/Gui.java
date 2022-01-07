@@ -2,10 +2,10 @@ package roksard.typingTrainer;
 
 import roksard.typingTrainer.listeners.EpTextKeyListener;
 import roksard.typingTrainer.listeners.FileLoadActionListener;
+import roksard.typingTrainer.listeners.MainWindowListener;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
 public class Gui {
     final static String CONFIG_FILE = "settings.p";
@@ -24,7 +24,7 @@ public class Gui {
                 JOptionPane.showMessageDialog(frame, "Error: " + e.toString() + ": " + e.getMessage());
             }
         });
-        frame.addWindowListener(getMainWindowListener());
+        frame.addWindowListener(new MainWindowListener());
         MainJPanel jpanel = new MainJPanel();
 
         JEditorPane epText = new JEditorPane();
@@ -53,46 +53,5 @@ public class Gui {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.repaint();
-    }
-
-    static WindowListener getMainWindowListener() {
-        return new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowClosing(WindowEvent e) {
-//                config.setX((int)frame.getLocation().getX());
-//                config.setY((int)frame.getLocation().getY());
-//                serializer.save(CONFIG_FILE, config);
-            }
-
-            @Override
-            public void windowClosed(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowIconified(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowDeiconified(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowActivated(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowDeactivated(WindowEvent e) {
-
-            }
-        };
     }
 }
