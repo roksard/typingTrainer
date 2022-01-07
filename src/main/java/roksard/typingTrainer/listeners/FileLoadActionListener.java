@@ -14,9 +14,9 @@ import java.util.Arrays;
 
 public class FileLoadActionListener implements ActionListener {
     JFrame frame;
-    JEditorPane epText;
+    JTextArea epText;
 
-    public FileLoadActionListener(JFrame frame, JEditorPane epText) {
+    public FileLoadActionListener(JFrame frame, JTextArea epText) {
         this.frame = frame;
         this.epText = epText;
     }
@@ -33,8 +33,10 @@ public class FileLoadActionListener implements ActionListener {
                 bb.rewind();
                 CharBuffer charBuffer = StandardCharsets.UTF_8.decode(bb);
                 text.append(charBuffer.toString());
+                System.out.println("len : " + text.length());
+                System.out.println(charBuffer.toString());
                 bb.clear();
-            };
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -27,16 +27,28 @@ public class Gui {
         frame.addWindowListener(new MainWindowListener());
         MainJPanel jpanel = new MainJPanel();
 
-        JEditorPane epText = new JEditorPane();
+        JTextArea epText = new JTextArea();
         epText.setText("Halliehaloe");
-        epText.setBounds(5, 15, 390, 50);
-        epText.setBorder(BorderFactory.createEtchedBorder());
-        epText.setEditable(false);
+//        epText.setBounds(5, 15, 390, 50);
+
+//        epText.setBorder(BorderFactory.createEtchedBorder());
+        epText.setEditable(true);
         epText.getCaret().setSelectionVisible(true);
         epText.getCaret().setVisible(true);
-        epText.getCaret().setDot(3);
-        epText.addKeyListener(new EpTextKeyListener(epText, jpanel));
-        jpanel.add(epText);
+//        epText.getCaret().setDot(3);
+        epText.setAutoscrolls(true);
+//        epText.addKeyListener(new EpTextKeyListener(epText, jpanel));
+
+        JTextArea jt = new JTextArea("NNNNNNNN");
+        jt.setPreferredSize(new Dimension(50, 50));
+        jt.revalidate();
+
+        JScrollPane jScrollPane = new JScrollPane(jt);
+
+        jScrollPane.revalidate();
+
+        jpanel.add(jScrollPane);
+//        jpanel.add(epText);
 
         MenuBar menuBar = new MenuBar();
         Menu menu = new Menu("File");
@@ -46,7 +58,7 @@ public class Gui {
         menuBar.add(menu);
         frame.setMenuBar(menuBar);
 
-        jpanel.setLayout(null);
+//        jpanel.setLayout(null);
         frame.add(jpanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
