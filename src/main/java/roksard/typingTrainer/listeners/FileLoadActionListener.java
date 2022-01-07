@@ -4,12 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
+import java.io.File;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.channels.FileChannel;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -28,7 +26,7 @@ public class FileLoadActionListener implements ActionListener {
         try (
             FileChannel fileChannel = FileChannel.open(Paths.get(file.getAbsolutePath()));
         ) {
-            ByteBuffer bb = ByteBuffer.allocate(1024);
+            ByteBuffer bb = ByteBuffer.allocate(1024*500);
             int read = 0;
             while ((read = fileChannel.read(bb)) > 0) {
                 bb.limit(read);
