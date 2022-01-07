@@ -11,8 +11,6 @@ public class Gui {
     static JFrame frame;
     static final String TITLE = "fileSearch by content";
     static final roksard.graphicsAwt.Graphics GRAPHICS = new roksard.graphicsAwt.Graphics();
-    static final Color DARK_GREEN = Color.getHSBColor(0.33f, 1, 0.5f);
-    static final Color RED = Color.RED;
     static final Listeners LISTENERS = new Listeners();
 
     public static void main(String[] args) {
@@ -35,38 +33,7 @@ public class Gui {
         epText.getCaret().setSelectionVisible(true);
         epText.getCaret().setVisible(true);
         epText.getCaret().setDot(3);
-
-        epText.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                int caretPosition = epText.getCaretPosition();
-                if (caretPosition < epText.getText().length()) {
-                    Color statusIndicatorColor = jpanel.getStatusIndicatorColor();
-                    if (e.getKeyChar() == epText.getText().charAt(caretPosition)) {
-                        jpanel.setStatusIndicatorColor(DARK_GREEN);
-                    } else {
-                        jpanel.setStatusIndicatorColor(RED);
-                    }
-                    if (!statusIndicatorColor.equals(jpanel.getStatusIndicatorColor()))
-                        jpanel.repaint();
-
-                    epText.moveCaretPosition(caretPosition + 1);
-                    epText.setSelectionStart(epText.getCaretPosition());
-                }
-
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-
-            }
-        });
-
+        epText.addKeyListener(new EpTextKeyListener(epText, jpanel));
         jpanel.add(epText);
 
         MenuBar menuBar = new MenuBar();
