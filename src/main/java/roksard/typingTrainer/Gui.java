@@ -41,7 +41,7 @@ public class Gui {
         MenuBar menuBar = new MenuBar();
         Menu menu = new Menu("File");
         MenuItem menuItem = new MenuItem("Load");
-        menuItem.addActionListener(new FileLoadActionListener());
+        menuItem.addActionListener(new FileLoadActionListener(frame, epText));
         menu.add(menuItem);
         menuBar.add(menu);
         frame.setMenuBar(menuBar);
