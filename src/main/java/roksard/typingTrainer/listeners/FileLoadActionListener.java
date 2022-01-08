@@ -41,6 +41,8 @@ public class FileLoadActionListener implements ActionListener {
             throw new RuntimeException(e);
         }
         epText.setText(text.toString());
+        epText.setCaretPosition(0);
+        epText.getCaret().setVisible(true);
     }
 
     @Override

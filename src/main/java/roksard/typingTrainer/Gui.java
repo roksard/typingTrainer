@@ -34,14 +34,13 @@ public class Gui {
 
         epText.setLineWrap(true);
         epText.setEditable(false);
-        epText.getCaret().setSelectionVisible(true);
         epText.getCaret().setVisible(true);
         epText.addKeyListener(new EpTextKeyListener(epText, jpanel));
-        epText.setPreferredSize(new Dimension(700, 400));
 
 
-        JScrollPane jScrollPane = new JScrollPane(epText);
+        JScrollPane jScrollPane = new JScrollPane(epText, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         contentPane.add(jScrollPane, BorderLayout.CENTER);
+        jScrollPane.setPreferredSize(new Dimension(700, 400));
 
         MenuBar menuBar = new MenuBar();
         Menu menu = new Menu("File");
