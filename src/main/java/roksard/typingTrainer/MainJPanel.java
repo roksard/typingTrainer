@@ -10,7 +10,7 @@ public class MainJPanel extends JPanel {
     //init
     {
         setBackground(Color.WHITE);
-        setPreferredSize(new Dimension(400, 115));
+        setPreferredSize(new Dimension(50, 15));
     }
 
     @Override

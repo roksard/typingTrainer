@@ -26,29 +26,22 @@ public class Gui {
         });
         frame.addWindowListener(new MainWindowListener());
         MainJPanel jpanel = new MainJPanel();
+        Container contentPane = frame.getContentPane();
+        contentPane.add(jpanel, BorderLayout.PAGE_START);
 
         JTextArea epText = new JTextArea();
-        epText.setText("Halliehaloe");
-//        epText.setBounds(5, 15, 390, 50);
+        epText.setText("Hello World!");
 
-//        epText.setBorder(BorderFactory.createEtchedBorder());
-        epText.setEditable(true);
+        epText.setLineWrap(true);
+        epText.setEditable(false);
         epText.getCaret().setSelectionVisible(true);
         epText.getCaret().setVisible(true);
-//        epText.getCaret().setDot(3);
-        epText.setAutoscrolls(true);
-//        epText.addKeyListener(new EpTextKeyListener(epText, jpanel));
+        epText.addKeyListener(new EpTextKeyListener(epText, jpanel));
+        epText.setPreferredSize(new Dimension(700, 400));
 
-        JTextArea jt = new JTextArea("NNNNNNNN");
-        jt.setPreferredSize(new Dimension(50, 50));
-        jt.revalidate();
 
-        JScrollPane jScrollPane = new JScrollPane(jt);
-
-        jScrollPane.revalidate();
-
-        jpanel.add(jScrollPane);
-//        jpanel.add(epText);
+        JScrollPane jScrollPane = new JScrollPane(epText);
+        contentPane.add(jScrollPane, BorderLayout.CENTER);
 
         MenuBar menuBar = new MenuBar();
         Menu menu = new Menu("File");
@@ -58,8 +51,6 @@ public class Gui {
         menuBar.add(menu);
         frame.setMenuBar(menuBar);
 
-//        jpanel.setLayout(null);
-        frame.add(jpanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setLocationRelativeTo(null);

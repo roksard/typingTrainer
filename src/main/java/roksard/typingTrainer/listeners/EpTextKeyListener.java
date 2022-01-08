@@ -8,12 +8,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class EpTextKeyListener implements KeyListener {
-    private JEditorPane epText;
+    private JTextArea epText;
     private MainJPanel jpanel;
     private Color DARK_GREEN = Color.getHSBColor(0.33f, 1, 0.5f);
     private Color RED = Color.RED;
 
-    public EpTextKeyListener(JEditorPane epText, MainJPanel jpanel) {
+    public EpTextKeyListener(JTextArea epText, MainJPanel jpanel) {
         this.epText = epText;
         this.jpanel = jpanel;
     }
