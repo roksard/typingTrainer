@@ -12,7 +12,7 @@ public class Gui {
 //    final static JsonSerializer<Config> serializer = new JsonSerializer<>(Config.class);
 //    final static Config config = serializer.load(CONFIG_FILE, Config.DEFAULT);
     static JFrame frame;
-    static final String TITLE = "fileSearch by content";
+    static final String TITLE = "typing Trainer";
     static final roksard.graphicsAwt.Graphics GRAPHICS = new roksard.graphicsAwt.Graphics();
 
     public static void main(String[] args) {
