@@ -1,5 +1,7 @@
 package roksard.typingTrainer;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import roksard.json_serializer.JsonSerializer;
 import roksard.typingTrainer.listeners.EpTextKeyListener;
 import roksard.typingTrainer.listeners.FileLoadActionListener;
@@ -16,15 +18,17 @@ public class Gui {
     static JFrame frame;
     static final String TITLE = "typing Trainer";
     static final roksard.graphicsAwt.Graphics GRAPHICS = new roksard.graphicsAwt.Graphics();
+    static Logger LOGGER = LogManager.getLogger(Gui.class);
 
     public static void main(String[] args) {
+        LOGGER.debug("Initialisation start");
         frame = new JFrame();
         frame.setTitle(TITLE);
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread t, Throwable e) {
                 JOptionPane.showMessageDialog(frame, "Error: " + e.toString() + ": " + e.getMessage());
-
+                LOGGER.error("Error: ", e);
             }
         });
 
@@ -67,5 +71,6 @@ public class Gui {
         if (file.exists()) {
             fileLoadActionListener.loadFile(file, config.getFilePos());
         }
+        LOGGER.debug("Initialisation succesful");
     }
 }
