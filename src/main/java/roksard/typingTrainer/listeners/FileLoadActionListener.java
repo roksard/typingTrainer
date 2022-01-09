@@ -1,5 +1,7 @@
 package roksard.typingTrainer.listeners;
 
+import roksard.typingTrainer.Config;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,15 +15,22 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 
 public class FileLoadActionListener implements ActionListener {
-    JFrame frame;
-    JTextArea epText;
+    private JFrame frame;
+    private JTextArea epText;
+    private Config config;
 
-    public FileLoadActionListener(JFrame frame, JTextArea epText) {
+    public FileLoadActionListener(JFrame frame, JTextArea epText, Config config) {
         this.frame = frame;
         this.epText = epText;
+        this.config = config;
     }
 
-    void loadFile(File file) {
+    public void loadFile(File file, Integer position) {
+        loadFile(file);
+        epText.setCaretPosition(position);
+    }
+
+    public void loadFile(File file) {
         StringBuilder text = new StringBuilder();
         try (
             FileChannel fileChannel = FileChannel.open(Paths.get(file.getAbsolutePath()));
@@ -43,6 +52,7 @@ public class FileLoadActionListener implements ActionListener {
         epText.setText(text.toString());
         epText.setCaretPosition(0);
         epText.getCaret().setVisible(true);
+        config.setFileName(file.getAbsolutePath());
     }
 
     @Override
