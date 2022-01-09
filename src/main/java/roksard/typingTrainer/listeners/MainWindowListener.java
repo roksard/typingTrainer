@@ -1,24 +1,14 @@
 package roksard.typingTrainer.listeners;
 
-import roksard.json_serializer.JsonSerializer;
-import roksard.typingTrainer.Config;
+import lombok.AllArgsConstructor;
+import roksard.typingTrainer.ConfigUpdater;
 
-import javax.swing.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+@AllArgsConstructor
 public class MainWindowListener implements WindowListener {
-    private JFrame frame;
-    private Config config;
-    private JsonSerializer<Config> serializer;
-    private String CONFIG_FILE;
-
-    public MainWindowListener(JFrame frame, Config config, JsonSerializer<Config> serializer, String CONFIG_FILE) {
-        this.frame = frame;
-        this.config = config;
-        this.serializer = serializer;
-        this.CONFIG_FILE = CONFIG_FILE;
-    }
+    private final ConfigUpdater configUpdater;
 
     @Override
     public void windowOpened(WindowEvent e) {
@@ -27,11 +17,7 @@ public class MainWindowListener implements WindowListener {
 
     @Override
     public void windowClosing(WindowEvent e) {
-        config.setWinX((int)frame.getLocation().getX());
-        config.setWinY((int)frame.getLocation().getY());
-        config.setWinW(frame.getWidth());
-        config.setWinH(frame.getHeight());
-        serializer.save(CONFIG_FILE, config);
+        configUpdater.updateConfigAndSave();
     }
 
     @Override

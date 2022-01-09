@@ -59,19 +59,28 @@ public class Gui {
         menuBar.add(menu);
         frame.setMenuBar(menuBar);
 
-        frame.setLocation(config.getWinX(), config.getWinY());
-        frame.setPreferredSize(new Dimension(config.getWinW(), config.getWinH()));
+        if (config.getWinX() != null && config.getWinY() != null && config.getWinW() != null && config.getWinH() != null) {
+            frame.setLocation(config.getWinX(), config.getWinY());
+            frame.setPreferredSize(new Dimension(config.getWinW(), config.getWinH()));
+        } else {
+            frame.setPreferredSize(new Dimension(700, 400));
+            frame.setLocationRelativeTo(null);
+        }
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.addWindowListener(new MainWindowListener(frame, config, serializer, CONFIG_FILE));
+        ConfigUpdater configUpdater = new ConfigUpdater(serializer, CONFIG_FILE, frame, epText, config);
+        frame.addWindowListener(new MainWindowListener(configUpdater));
         frame.pack();
-        frame.setLocationRelativeTo(null);
+
         frame.setVisible(true);
         frame.repaint();
 
-        File file = new File(config.getFileName());
-        if (file.exists()) {
-            fileLoadActionListener.loadFile(file, config.getFilePos());
+        if (config.getFileName() != null) {
+            File file = new File(config.getFileName());
+            if (file.exists()) {
+                fileLoadActionListener.loadFile(file, config.getFilePos());
+            }
         }
+
         LOGGER.debug("Initialisation succesful");
     }
 }

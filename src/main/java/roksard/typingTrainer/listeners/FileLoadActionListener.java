@@ -27,7 +27,9 @@ public class FileLoadActionListener implements ActionListener {
 
     public void loadFile(File file, Integer position) {
         loadFile(file);
-        epText.setCaretPosition(position);
+        if (position != null) {
+            epText.setCaretPosition(position);
+        }
     }
 
     public void loadFile(File file) {
@@ -42,8 +44,6 @@ public class FileLoadActionListener implements ActionListener {
                 bb.rewind();
                 CharBuffer charBuffer = StandardCharsets.UTF_8.decode(bb);
                 text.append(charBuffer.toString());
-                System.out.println("len : " + text.length());
-                System.out.println(charBuffer.toString());
                 bb.clear();
             }
         } catch (Exception e) {
