@@ -29,6 +29,7 @@ public class Gui {
             public void uncaughtException(Thread t, Throwable e) {
                 JOptionPane.showMessageDialog(frame, "Error: " + e.toString() + ": " + e.getMessage());
                 LOGGER.error("Error: ", e);
+                System.exit(-1);
             }
         });
 
