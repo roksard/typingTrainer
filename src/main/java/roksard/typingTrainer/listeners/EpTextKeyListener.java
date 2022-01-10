@@ -1,6 +1,7 @@
 package roksard.typingTrainer.listeners;
 
 import roksard.typingTrainer.MainJPanel;
+import roksard.typingTrainer.pojo.Statistic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,6 +21,7 @@ public class EpTextKeyListener implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
+        Statistic currentStats = jpanel.getSession().getCurrentStats();
         int caretPosition = epText.getCaretPosition();
         if (caretPosition < epText.getText().length()) {
             Color statusIndicatorColor = jpanel.getStatusIndicatorColor();
@@ -27,12 +29,21 @@ public class EpTextKeyListener implements KeyListener {
                 jpanel.setStatusIndicatorColor(DARK_GREEN);
             } else {
                 jpanel.setStatusIndicatorColor(RED);
+                if (jpanel.getSession().isStarted()) {
+                    currentStats.setErrCount(currentStats.getErrCount() + 1);
+                }
             }
-            if (!statusIndicatorColor.equals(jpanel.getStatusIndicatorColor()))
+            if (!statusIndicatorColor.equals(jpanel.getStatusIndicatorColor())) {
                 jpanel.repaint();
+            }
 
+            if (jpanel.getSession().isStarted()) {
+                currentStats.setCount(currentStats.getCount() + 1);
+            }
             epText.moveCaretPosition(caretPosition + 1);
             epText.setSelectionStart(epText.getCaretPosition());
+            epText.setSelectionEnd(epText.getCaretPosition());
+            jpanel.updateLbCount();
         }
 
     }

@@ -14,9 +14,14 @@ public class MainJPanel extends JPanel {
     private JLabel lbErrorCount;
     private JLabel lbTime;
     private JButton btStart;
+    private Session session;
 
-    //init
-    {
+    public MainJPanel(Session session) {
+        this.session = session;
+        init();
+    }
+
+    private void init() {
         setBackground(Color.WHITE);
         setPreferredSize(new Dimension(50, 50));
         setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -24,12 +29,13 @@ public class MainJPanel extends JPanel {
         add(lbCharCount);
         lbErrorCount = new JLabel();
         add(lbErrorCount);
-        setLbCharErrorCount(0, 0);
+        setLbCharErrorCount(0L, 0L);
         lbTime = new JLabel();
         add(lbTime);
-        setLbTime("00:00");
+        setLbTime(session.formatTimeMs(0));
         btStart = new JButton("Start");
-        btStart.addActionListener(new BtStartActionListener(btStart));
+        btStart.setFocusable(false);
+        btStart.addActionListener(new BtStartActionListener(this));
         add(btStart);
     }
 
@@ -47,7 +53,7 @@ public class MainJPanel extends JPanel {
         this.statusIndicatorColor = statusIndicatorColor;
     }
 
-    public void setLbCharErrorCount(Integer typedCount, Integer errorCount) {
+    public void setLbCharErrorCount(Long typedCount, Long errorCount) {
         float errPercent;
         if (typedCount == 0) {
             errPercent = 0;
@@ -60,5 +66,10 @@ public class MainJPanel extends JPanel {
 
     public void setLbTime(String time) {
         this.lbTime.setText("Time: " + time);
+    }
+
+    public void updateLbCount() {
+
+        setLbCharErrorCount(session.getCurrentStats().getCount(), session.getCurrentStats().getErrCount());
     }
 }

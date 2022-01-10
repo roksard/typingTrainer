@@ -24,6 +24,7 @@ public class Gui {
 
     public static void main(String[] args) {
         LOGGER.debug("Initialisation start");
+        Session session = new Session();
         frame = new JFrame();
         frame.setTitle(TITLE);
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
@@ -35,7 +36,7 @@ public class Gui {
             }
         });
 
-        MainJPanel jpanel = new MainJPanel();
+        MainJPanel jpanel = new MainJPanel(session);
         Container contentPane = frame.getContentPane();
         contentPane.add(jpanel, BorderLayout.PAGE_START);
 
