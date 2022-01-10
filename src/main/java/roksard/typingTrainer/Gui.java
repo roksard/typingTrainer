@@ -3,6 +3,7 @@ package roksard.typingTrainer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import roksard.json_serializer.JsonSerializer;
+import roksard.typingTrainer.listeners.EpTextFocusListener;
 import roksard.typingTrainer.listeners.EpTextKeyListener;
 import roksard.typingTrainer.listeners.FileLoadActionListener;
 import roksard.typingTrainer.listeners.MainWindowListener;
@@ -45,6 +46,7 @@ public class Gui {
         epText.setEditable(false);
         epText.getCaret().setVisible(true);
         epText.addKeyListener(new EpTextKeyListener(epText, jpanel));
+        epText.addFocusListener(new EpTextFocusListener(epText));
 
 
         JScrollPane jScrollPane = new JScrollPane(epText, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
