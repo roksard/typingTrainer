@@ -1,6 +1,7 @@
 package roksard.typingTrainer;
 
 import lombok.Getter;
+import roksard.typingTrainer.listeners.BtStartActionListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +13,7 @@ public class MainJPanel extends JPanel {
     private JLabel lbCharCount;
     private JLabel lbErrorCount;
     private JLabel lbTime;
+    private JButton btStart;
 
     //init
     {
@@ -19,11 +21,16 @@ public class MainJPanel extends JPanel {
         setPreferredSize(new Dimension(50, 50));
         setLayout(new FlowLayout(FlowLayout.LEFT));
         lbCharCount = new JLabel();
-        lbErrorCount = new JLabel();
-        lbTime = new JLabel();
         add(lbCharCount);
+        lbErrorCount = new JLabel();
         add(lbErrorCount);
+        setLbCharErrorCount(0, 0);
+        lbTime = new JLabel();
         add(lbTime);
+        setLbTime("00:00");
+        btStart = new JButton("Start");
+        btStart.addActionListener(new BtStartActionListener(btStart));
+        add(btStart);
     }
 
     @Override
@@ -41,7 +48,12 @@ public class MainJPanel extends JPanel {
     }
 
     public void setLbCharErrorCount(Integer typedCount, Integer errorCount) {
-        float errPercent = errorCount / (float)typedCount * 100;
+        float errPercent;
+        if (typedCount == 0) {
+            errPercent = 0;
+        } else {
+            errPercent = errorCount / (float)typedCount * 100;
+        }
         this.lbCharCount.setText("Typed: " + typedCount);
         this.lbErrorCount.setText("Errors: " + errorCount + " (" + String.format("%.2f", errPercent) + "%)");
     }
