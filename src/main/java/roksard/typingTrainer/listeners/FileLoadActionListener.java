@@ -1,6 +1,6 @@
 package roksard.typingTrainer.listeners;
 
-import roksard.typingTrainer.Config;
+import roksard.typingTrainer.pojo.Config;
 
 import javax.swing.*;
 import java.awt.*;

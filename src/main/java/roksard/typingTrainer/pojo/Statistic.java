@@ -1,4 +1,4 @@
-package roksard.typingTrainer;
+package roksard.typingTrainer.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

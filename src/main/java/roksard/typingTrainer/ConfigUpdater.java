@@ -2,6 +2,7 @@ package roksard.typingTrainer;
 
 import lombok.AllArgsConstructor;
 import roksard.json_serializer.JsonSerializer;
+import roksard.typingTrainer.pojo.Config;
 
 import javax.swing.*;
 

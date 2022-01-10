@@ -6,6 +6,7 @@ import roksard.json_serializer.JsonSerializer;
 import roksard.typingTrainer.listeners.EpTextKeyListener;
 import roksard.typingTrainer.listeners.FileLoadActionListener;
 import roksard.typingTrainer.listeners.MainWindowListener;
+import roksard.typingTrainer.pojo.Config;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,7 +49,6 @@ public class Gui {
 
         JScrollPane jScrollPane = new JScrollPane(epText, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         contentPane.add(jScrollPane, BorderLayout.CENTER);
-//        jScrollPane.setPreferredSize(new Dimension(700, 400));
 
         MenuBar menuBar = new MenuBar();
         Menu menu = new Menu("File");
