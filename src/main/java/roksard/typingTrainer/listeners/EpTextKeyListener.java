@@ -25,8 +25,9 @@ public class EpTextKeyListener implements KeyListener {
         int caretPosition = epText.getCaretPosition();
         if (caretPosition < epText.getText().length()) {
             Color statusIndicatorColor = jpanel.getStatusIndicatorColor();
-            if (e.getKeyChar() == epText.getText().charAt(caretPosition)) {
+            if (e.getKeyChar() == epText.getText().charAt(caretPosition) || e.getKeyChar() == ' ') {
                 jpanel.setStatusIndicatorColor(DARK_GREEN);
+                epText.moveCaretPosition(caretPosition + 1);
             } else {
                 jpanel.setStatusIndicatorColor(RED);
                 if (jpanel.getSession().isStarted()) {
@@ -40,7 +41,6 @@ public class EpTextKeyListener implements KeyListener {
             if (jpanel.getSession().isStarted()) {
                 currentStats.setCount(currentStats.getCount() + 1);
             }
-            epText.moveCaretPosition(caretPosition + 1);
             epText.setSelectionStart(epText.getCaretPosition());
             epText.setSelectionEnd(epText.getCaretPosition());
             jpanel.updateLbCount();
