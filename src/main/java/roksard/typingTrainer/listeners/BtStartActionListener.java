@@ -29,6 +29,7 @@ public class BtStartActionListener implements ActionListener {
                 @Override
                 public void run() {
                     mainJPanel.setLbTime(session.formatTimeMs(session.calcCurrentTime()));
+                    mainJPanel.updateLbTypingSpeed();
                 }
             }, 500, 500);
         } else {

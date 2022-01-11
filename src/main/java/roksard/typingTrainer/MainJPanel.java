@@ -13,6 +13,7 @@ public class MainJPanel extends JPanel {
     private JLabel lbCharCount;
     private JLabel lbErrorCount;
     private JLabel lbTime;
+    private JLabel lbSpeed;
     private JButton btStart;
     private Session session;
 
@@ -33,6 +34,8 @@ public class MainJPanel extends JPanel {
         lbTime = new JLabel();
         add(lbTime);
         setLbTime(session.formatTimeMs(0));
+        lbSpeed = new JLabel();
+        add(lbSpeed);
         btStart = new JButton("Start");
         btStart.setFocusable(false);
         btStart.addActionListener(new BtStartActionListener(this));
@@ -69,7 +72,13 @@ public class MainJPanel extends JPanel {
     }
 
     public void updateLbCount() {
-
         setLbCharErrorCount(session.getCurrentStats().getCount(), session.getCurrentStats().getErrCount());
+    }
+
+    public void updateLbTypingSpeed() {
+        long timeMillis = session.calcCurrentTime();
+        double timeMinutes = ((double)timeMillis) / (1000 * 60);
+        double letterPerMinute = session.getCurrentStats().getCount() / timeMinutes;
+        lbSpeed.setText("Speed: " + String.format("%.0f (letters/min)", letterPerMinute));
     }
 }
