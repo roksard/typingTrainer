@@ -61,7 +61,7 @@ public class MainJPanel extends JPanel {
         if (typedCount == 0) {
             errPercent = 0;
         } else {
-            errPercent = errorCount / (float)typedCount * 100;
+            errPercent = errorCount / (float)(typedCount + errorCount) * 100;
         }
         this.lbCharCount.setText("Typed: " + typedCount);
         this.lbErrorCount.setText("Errors: " + errorCount + " (" + String.format("%.2f", errPercent) + "%)");

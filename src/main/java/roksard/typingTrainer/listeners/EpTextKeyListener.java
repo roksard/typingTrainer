@@ -26,9 +26,14 @@ public class EpTextKeyListener implements KeyListener {
         if (caretPosition < epText.getText().length()) {
             Color statusIndicatorColor = jpanel.getStatusIndicatorColor();
             if (e.getKeyChar() == epText.getText().charAt(caretPosition) || e.getKeyChar() == ' ') {
+                //correct letter typed
                 jpanel.setStatusIndicatorColor(DARK_GREEN);
                 epText.moveCaretPosition(caretPosition + 1);
+                if (jpanel.getSession().isStarted()) {
+                    currentStats.setCount(currentStats.getCount() + 1);
+                }
             } else {
+                //incorrect letter typed
                 jpanel.setStatusIndicatorColor(RED);
                 if (jpanel.getSession().isStarted()) {
                     currentStats.setErrCount(currentStats.getErrCount() + 1);
@@ -38,9 +43,6 @@ public class EpTextKeyListener implements KeyListener {
                 jpanel.repaint();
             }
 
-            if (jpanel.getSession().isStarted()) {
-                currentStats.setCount(currentStats.getCount() + 1);
-            }
             epText.setSelectionStart(epText.getCaretPosition());
             epText.setSelectionEnd(epText.getCaretPosition());
             jpanel.updateLbCount();
