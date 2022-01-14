@@ -37,11 +37,9 @@ public class MainJPanel extends JPanel {
         add(lbCharCount);
         lbErrorCount = new JLabel();
         add(lbErrorCount);
-        setLbCharErrorCount(0L, 0L);
 
         lbTime = new JLabel();
         add(lbTime);
-        setLbTime(formatTimeMs(0));
 
         lbSpeed = new JLabel();
         add(lbSpeed);
@@ -55,6 +53,8 @@ public class MainJPanel extends JPanel {
         btReset.setFocusable(false);
         btReset.addActionListener(new BtResetActionListener(this));
         add(btReset);
+
+        resetAllLabels();
     }
 
     @Override

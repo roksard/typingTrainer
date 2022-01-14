@@ -17,6 +17,9 @@ public class Session {
     private MainJPanel mainJPanel;
 
     public long calcCurrentTime() {
+        if (getCurrentStats().getStartTime() == null) {
+            return 0;
+        }
         return getCurrentStats().getTimeMs()
                 + getCurrentStats().getStartTime().until(Instant.now(), ChronoUnit.MILLIS);
     }
