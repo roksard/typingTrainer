@@ -13,14 +13,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 
-public class Gui {
+public class Main {
     final static String CONFIG_FILE = "settings.p";
     final static JsonSerializer<Config> serializer = new JsonSerializer<>(Config.class);
     final static Config config = serializer.load(CONFIG_FILE, Config.DEFAULT);
     static JFrame frame;
     static final String TITLE = "typing Trainer";
     static final roksard.graphicsAwt.Graphics GRAPHICS = new roksard.graphicsAwt.Graphics();
-    static Logger LOGGER = LogManager.getLogger(Gui.class);
+    static Logger LOGGER = LogManager.getLogger(Main.class);
 
     public static void main(String[] args) {
         LOGGER.debug("Initialisation start");
