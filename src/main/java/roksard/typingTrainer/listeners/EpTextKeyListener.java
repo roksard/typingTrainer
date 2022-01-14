@@ -45,7 +45,7 @@ public class EpTextKeyListener implements KeyListener {
 
             epText.setSelectionStart(epText.getCaretPosition());
             epText.setSelectionEnd(epText.getCaretPosition());
-            jpanel.updateLbCount();
+            jpanel.updateLbCountErrCount();
         }
 
     }
