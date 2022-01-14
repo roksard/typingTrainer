@@ -12,7 +12,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Statistic {
-    private Instant startTime;
+    private Long createdEpoch = Instant.now().toEpochMilli();
     private Long timeMs = 0L;
     private Long count = 0L;
     private Long errCount = 0L;

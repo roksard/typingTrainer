@@ -25,6 +25,8 @@ public class Main {
     public static void main(String[] args) {
         LOGGER.debug("Initialisation start");
         Session session = new Session();
+        session.setStatisticList(config.getStatistic());
+
         frame = new JFrame();
         frame.setTitle(TITLE);
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
@@ -70,7 +72,7 @@ public class Main {
             frame.setLocationRelativeTo(null);
         }
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ConfigUpdater configUpdater = new ConfigUpdater(serializer, CONFIG_FILE, frame, epText, config);
+        ConfigUpdater configUpdater = new ConfigUpdater(serializer, CONFIG_FILE, frame, epText, config, session);
         frame.addWindowListener(new MainWindowListener(configUpdater));
         frame.pack();
 

@@ -22,23 +22,24 @@ public class BtStartActionListener implements ActionListener {
         session.setStarted(!session.isStarted());
         if (session.isStarted()) {
             btStart.setText("Stop");
-            session.getCurrentStats().setStartTime(Instant.now());
+            session.setStartedTime(Instant.now());
             Timer timer = new Timer(true);
             session.setTimer(timer);
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    mainJPanel.setLbTime(mainJPanel.formatTimeMs(session.calcCurrentTime()));
+                    mainJPanel.updateLbTime();
                     mainJPanel.updateLbTypingSpeed();
                 }
             }, 500, 500);
         } else {
             session.getTimer().cancel();
+            session.recalcTimeMs();
+            session.setStartedTime(null);
             btStart.setText("Start");
             if (session.getCurrentStats().getTimeMs() == null) {
                 session.getCurrentStats().setTimeMs(0L);
             }
-            session.getCurrentStats().setTimeMs(session.calcCurrentTime());
         }
     }
 }

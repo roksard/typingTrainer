@@ -3,11 +3,9 @@ package roksard.typingTrainer;
 import lombok.Getter;
 import roksard.typingTrainer.listeners.BtResetActionListener;
 import roksard.typingTrainer.listeners.BtStartActionListener;
-import roksard.typingTrainer.pojo.Statistic;
 
 import javax.swing.*;
 import java.awt.*;
-import java.time.Instant;
 
 @Getter
 public class MainJPanel extends JPanel {
@@ -92,12 +90,16 @@ public class MainJPanel extends JPanel {
 
     public void updateLbTypingSpeed() {
         double letterPerMinute = 0;
-        long timeMillis = session.calcCurrentTime();
+        long timeMillis = session.calcCurrentRunningTime();
         if (timeMillis != 0) {
             double timeMinutes = ((double) timeMillis) / (1000 * 60);
             letterPerMinute = session.getCurrentStats().getCount() / timeMinutes;
         }
         lbSpeed.setText("Speed: " + String.format("%.0f (letters/min)", letterPerMinute));
+    }
+
+    public void updateLbTime() {
+        setLbTime(formatTimeMs(session.calcCurrentRunningTime()));
     }
 
     public String formatTimeMs(long timeMs) {
