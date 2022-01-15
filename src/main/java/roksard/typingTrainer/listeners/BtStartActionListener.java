@@ -1,7 +1,7 @@
 package roksard.typingTrainer.listeners;
 
 import lombok.AllArgsConstructor;
-import roksard.typingTrainer.MainJPanel;
+import roksard.typingTrainer.UpperPanel;
 import roksard.typingTrainer.Session;
 
 import javax.swing.*;
@@ -13,12 +13,12 @@ import java.util.TimerTask;
 
 @AllArgsConstructor
 public class BtStartActionListener implements ActionListener {
-    private MainJPanel mainJPanel;
+    private UpperPanel upperPanel;
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Session session = mainJPanel.getSession();
-        JButton btStart = mainJPanel.getBtStart();
+        Session session = upperPanel.getSession();
+        JButton btStart = upperPanel.getBtStart();
         session.setStarted(!session.isStarted());
         if (session.isStarted()) {
             btStart.setText("Stop");
@@ -28,8 +28,8 @@ public class BtStartActionListener implements ActionListener {
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    mainJPanel.updateLbTime();
-                    mainJPanel.updateLbTypingSpeed();
+                    upperPanel.updateLbTime();
+                    upperPanel.updateLbTypingSpeed();
                 }
             }, 500, 500);
         } else {

@@ -1,6 +1,6 @@
 package roksard.typingTrainer.listeners;
 
-import roksard.typingTrainer.MainJPanel;
+import roksard.typingTrainer.UpperPanel;
 import roksard.typingTrainer.pojo.Statistic;
 
 import javax.swing.*;
@@ -10,30 +10,30 @@ import java.awt.event.KeyListener;
 
 public class EpTextKeyListener implements KeyListener {
     private JTextArea epText;
-    private MainJPanel jpanel;
+    private UpperPanel upperPanel;
     private Color DARK_GREEN = Color.getHSBColor(0.33f, 1, 0.5f);
     private Color RED = Color.RED;
 
-    public EpTextKeyListener(JTextArea epText, MainJPanel jpanel) {
+    public EpTextKeyListener(JTextArea epText, UpperPanel upperPanel) {
         this.epText = epText;
-        this.jpanel = jpanel;
+        this.upperPanel = upperPanel;
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-        Statistic currentStats = jpanel.getSession().getCurrentStats();
+        Statistic currentStats = upperPanel.getSession().getCurrentStats();
         String text = epText.getText();
         char userInput = e.getKeyChar();
         int caretPosition = epText.getCaretPosition();
         if (caretPosition < text.length()) {
-            Color statusIndicatorColor = jpanel.getStatusIndicatorColor();
+            Color statusIndicatorColor = upperPanel.getStatusIndicatorColor();
             char requiredChar = text.charAt(caretPosition);
             boolean isCRLF = requiredChar == '\r' && caretPosition+1 < text.length() && text.charAt(caretPosition+1) == '\n';
             //with a [space] user can skip through unprintable and invisible characters
             if (userInput == requiredChar || userInput == ' ' || userInput == '\n' && isCRLF) {
                 //correct letter typed
-                jpanel.setStatusIndicatorColor(DARK_GREEN);
-                if (jpanel.getSession().isStarted()) {
+                upperPanel.setStatusIndicatorColor(DARK_GREEN);
+                if (upperPanel.getSession().isStarted()) {
                     currentStats.setCount(currentStats.getCount() + 1);
                 }
                 if (isCRLF) {
@@ -43,18 +43,18 @@ public class EpTextKeyListener implements KeyListener {
                 }
             } else {
                 //incorrect letter typed
-                jpanel.setStatusIndicatorColor(RED);
-                if (jpanel.getSession().isStarted()) {
+                upperPanel.setStatusIndicatorColor(RED);
+                if (upperPanel.getSession().isStarted()) {
                     currentStats.setErrCount(currentStats.getErrCount() + 1);
                 }
             }
-            if (!statusIndicatorColor.equals(jpanel.getStatusIndicatorColor())) {
-                jpanel.repaint();
+            if (!statusIndicatorColor.equals(upperPanel.getStatusIndicatorColor())) {
+                upperPanel.repaint();
             }
 
             epText.setSelectionStart(epText.getCaretPosition());
             epText.setSelectionEnd(epText.getCaretPosition());
-            jpanel.updateLbCountErrCount();
+            upperPanel.updateLbCountErrCount();
         }
 
     }

@@ -29,7 +29,7 @@ public class Session {
     private boolean isStarted = false;
     private Instant startedTime;
     private Timer timer;
-    private MainJPanel mainJPanel;
+    private UpperPanel upperPanel;
 
     public void recalcTimeMs() {
         currentStats.setTimeMs(calcCurrentRunningTime());
@@ -48,7 +48,7 @@ public class Session {
         statisticList.add(0, currentStats);
         resetPrecalculatedListCountSum();
         currentStats = new Statistic();
-        mainJPanel.resetAllLabels();
+        upperPanel.resetAllLabels();
     }
 
     public long calcTotalTypedCount() {

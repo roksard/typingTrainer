@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 
 @Getter
-public class MainJPanel extends JPanel {
+public class UpperPanel extends JPanel {
     private static final roksard.graphicsAwt.Graphics GRAPHICS = new roksard.graphicsAwt.Graphics();
     private Color statusIndicatorColor = Color.getHSBColor(0.33f, 1, 0.5f);
     private JLabel lbCharCount;
@@ -19,13 +19,13 @@ public class MainJPanel extends JPanel {
     private JButton btReset;
     private Session session;
 
-    public MainJPanel(Session session) {
+    public UpperPanel(Session session) {
         this.session = session;
         init();
     }
 
     private void init() {
-        session.setMainJPanel(this);
+        session.setUpperPanel(this);
 
         setBackground(Color.WHITE);
         setPreferredSize(new Dimension(50, 50));

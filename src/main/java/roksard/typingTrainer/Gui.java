@@ -1,6 +1,5 @@
 package roksard.typingTrainer;
 
-import com.sun.corba.se.impl.presentation.rmi.ExceptionHandler;
 import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,9 +41,9 @@ public class Gui {
         frame = new JFrame();
         frame.setTitle(TITLE);
 
-        MainJPanel jpanel = new MainJPanel(session);
+        UpperPanel upperPanel = new UpperPanel(session);
         Container contentPane = frame.getContentPane();
-        contentPane.add(jpanel, BorderLayout.PAGE_START);
+        contentPane.add(upperPanel, BorderLayout.PAGE_START);
 
         JTextArea epText = new JTextArea("This program allows you to read a book and simultaneously type it on a keyboard.\n" +
                 "Use Menu File -> Load to load a file. This can be some book or any other text, that you would like to practice your typing on. \n" +
@@ -53,7 +52,7 @@ public class Gui {
         epText.setLineWrap(true);
         epText.setEditable(false);
         epText.getCaret().setVisible(true);
-        epText.addKeyListener(new EpTextKeyListener(epText, jpanel));
+        epText.addKeyListener(new EpTextKeyListener(epText, upperPanel));
         epText.addFocusListener(new EpTextFocusListener(epText));
 
 
