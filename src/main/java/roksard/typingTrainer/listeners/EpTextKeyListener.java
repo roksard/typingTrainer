@@ -22,15 +22,24 @@ public class EpTextKeyListener implements KeyListener {
     @Override
     public void keyTyped(KeyEvent e) {
         Statistic currentStats = jpanel.getSession().getCurrentStats();
+        String text = epText.getText();
+        char userInput = e.getKeyChar();
         int caretPosition = epText.getCaretPosition();
-        if (caretPosition < epText.getText().length()) {
+        if (caretPosition < text.length()) {
             Color statusIndicatorColor = jpanel.getStatusIndicatorColor();
-            if (e.getKeyChar() == epText.getText().charAt(caretPosition) || e.getKeyChar() == ' ') {
+            char requiredChar = text.charAt(caretPosition);
+            boolean isCRLF = requiredChar == '\r' && caretPosition+1 < text.length() && text.charAt(caretPosition+1) == '\n';
+            //with a [space] user can skip through unprintable and invisible characters
+            if (userInput == requiredChar || userInput == ' ' || userInput == '\n' && isCRLF) {
                 //correct letter typed
                 jpanel.setStatusIndicatorColor(DARK_GREEN);
-                epText.moveCaretPosition(caretPosition + 1);
                 if (jpanel.getSession().isStarted()) {
                     currentStats.setCount(currentStats.getCount() + 1);
+                }
+                if (isCRLF) {
+                    epText.moveCaretPosition(caretPosition + 2);; //extra skip for "\r\n" new line characters combo
+                } else {
+                    epText.moveCaretPosition(caretPosition + 1);
                 }
             } else {
                 //incorrect letter typed
