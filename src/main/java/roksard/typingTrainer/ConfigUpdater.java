@@ -6,6 +6,7 @@ import roksard.typingTrainer.pojo.Config;
 import roksard.typingTrainer.pojo.Statistic;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +32,18 @@ public class ConfigUpdater {
             statisticList.add(0, session.getCurrentStats());
         }
         config.setStatistic(statisticList);
+        config.setFontName(epText.getFont().getFontName());
+        config.setFontStyle(epText.getFont().getStyle());
+        config.setFontSize(epText.getFont().getSize());
         serializer.save(CONFIG_FILE, config);
+    }
+
+    public Font getFont() {
+        Font font = null;
+        try {
+            font = new Font(config.getFontName(), config.getFontStyle(), config.getFontSize());
+        } catch (Throwable e) {
+        }
+        return font;
     }
 }

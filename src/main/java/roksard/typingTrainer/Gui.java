@@ -4,10 +4,7 @@ import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import roksard.json_serializer.JsonSerializer;
-import roksard.typingTrainer.listeners.EpTextFocusListener;
-import roksard.typingTrainer.listeners.EpTextKeyListener;
-import roksard.typingTrainer.listeners.FileLoadActionListener;
-import roksard.typingTrainer.listeners.MainWindowListener;
+import roksard.typingTrainer.listeners.*;
 import roksard.typingTrainer.pojo.Config;
 
 import javax.swing.*;
@@ -60,12 +57,19 @@ public class Gui {
         contentPane.add(jScrollPane, BorderLayout.CENTER);
 
         MenuBar menuBar = new MenuBar();
-        Menu menu = new Menu("File");
-        MenuItem menuItem = new MenuItem("Load");
+        Menu mFile = new Menu("File");
+        MenuItem miLoad = new MenuItem("Load");
         FileLoadActionListener fileLoadActionListener = new FileLoadActionListener(frame, epText, config);
-        menuItem.addActionListener(fileLoadActionListener);
-        menu.add(menuItem);
-        menuBar.add(menu);
+        miLoad.addActionListener(fileLoadActionListener);
+        mFile.add(miLoad);
+        menuBar.add(mFile);
+
+        Menu mSettings = new Menu("Settings");
+        MenuItem miChooseFont = new MenuItem("Choose font");
+        ChooseFontActionListener chooseFontActionListener = new ChooseFontActionListener(frame, epText, config);
+        miChooseFont.addActionListener(chooseFontActionListener);
+        mSettings.add(miChooseFont);
+        menuBar.add(mSettings);
         frame.setMenuBar(menuBar);
 
         if (config.getWinX() != null && config.getWinY() != null && config.getWinW() != null && config.getWinH() != null) {
@@ -88,6 +92,10 @@ public class Gui {
             if (file.exists()) {
                 fileLoadActionListener.loadFile(file, config.getFilePos());
             }
+        }
+        Font font = configUpdater.getFont();
+        if (font != null) {
+            chooseFontActionListener.setFont(font);
         }
 
         LOGGER.debug("Initialisation succesful");

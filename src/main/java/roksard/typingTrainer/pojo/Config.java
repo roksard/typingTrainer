@@ -21,4 +21,7 @@ public class Config {
     private String fileName;
     private Integer filePos;
     private List<Statistic> statistic = new ArrayList<>();
+    String fontName;
+    private Integer fontStyle;
+    private Integer fontSize;
 }
