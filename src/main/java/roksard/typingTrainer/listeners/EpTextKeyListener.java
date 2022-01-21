@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.List;
 
 public class EpTextKeyListener implements KeyListener {
     private JTextArea epText;
@@ -35,6 +36,10 @@ public class EpTextKeyListener implements KeyListener {
                 upperPanel.setStatusIndicatorColor(DARK_GREEN);
                 if (upperPanel.getSession().isStarted()) {
                     currentStats.setCount(currentStats.getCount() + 1);
+                    List<Long> lastLettersTypedTimeList = upperPanel.getSession().getMomentarySpeedLettersTimeList();
+                    synchronized (lastLettersTypedTimeList) {
+                        lastLettersTypedTimeList.add(0, System.currentTimeMillis());
+                    }
                 }
                 if (isCRLF) {
                     epText.moveCaretPosition(caretPosition + 2);; //extra skip for "\r\n" new line characters combo

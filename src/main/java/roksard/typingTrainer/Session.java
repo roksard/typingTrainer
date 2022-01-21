@@ -6,6 +6,7 @@ import roksard.typingTrainer.pojo.Statistic;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Timer;
@@ -30,6 +31,8 @@ public class Session {
     private Instant startedTime;
     private Timer timer;
     private UpperPanel upperPanel;
+    private final List<Long> momentarySpeedLettersTimeList = new ArrayList<>(); //used to calculate momentary typing speed in last N seconds
+    private final long momentarySpeedRange = 30000; //(ms) in what period is momentary typing speed calculated
 
     public void recalcTimeMs() {
         currentStats.setTimeMs(calcCurrentRunningTime());
@@ -64,6 +67,20 @@ public class Session {
 
     public void resetPrecalculatedListCountSum() {
         statisticListCountSum = VALUE.UNDEFINED.getLongV();
+    }
+
+    public void removeOldLetterTimes() {
+        boolean checkList = true;
+        synchronized (momentarySpeedLettersTimeList) {
+            while (checkList && !momentarySpeedLettersTimeList.isEmpty()) {
+                int id = momentarySpeedLettersTimeList.size() - 1;
+                if (System.currentTimeMillis() - momentarySpeedLettersTimeList.get(id) > momentarySpeedRange) {
+                    momentarySpeedLettersTimeList.remove(id);
+                } else {
+                    checkList = false;
+                }
+            }
+        }
     }
 
 }

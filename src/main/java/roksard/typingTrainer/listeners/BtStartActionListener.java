@@ -28,10 +28,11 @@ public class BtStartActionListener implements ActionListener {
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
+                    session.removeOldLetterTimes();
                     upperPanel.updateLbTime();
                     upperPanel.updateLbTypingSpeed();
                 }
-            }, 500, 500);
+            }, 500, 100);
         } else {
             session.getTimer().cancel();
             session.recalcTimeMs();

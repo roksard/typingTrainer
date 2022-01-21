@@ -88,14 +88,16 @@ public class UpperPanel extends JPanel {
         setLbCharErrorCount(session.getCurrentStats().getCount(), session.getCurrentStats().getErrCount());
     }
 
-    public void updateLbTypingSpeed() {
-        double letterPerMinute = 0;
+    public void updateLbTypingSpeed() { //letters per min
+        double average = 0;
+        double momentary = 0;
         long timeMillis = session.calcCurrentRunningTime();
         if (timeMillis != 0) {
             double timeMinutes = ((double) timeMillis) / (1000 * 60);
-            letterPerMinute = session.getCurrentStats().getCount() / timeMinutes;
+            average = session.getCurrentStats().getCount() / timeMinutes;
+            momentary = session.getMomentarySpeedLettersTimeList().size() / ((double)session.getMomentarySpeedRange()/1000.0) * 60;
         }
-        lbSpeed.setText("Speed: " + String.format("%.0f (letters/min)", letterPerMinute));
+        lbSpeed.setText("Speed: " + String.format("%.0f / Average: %.0f letters/min)", momentary, average));
     }
 
     public void updateLbTime() {
