@@ -6,10 +6,8 @@ import roksard.typingTrainer.pojo.Statistic;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Timer;
+import java.util.*;
+import java.util.concurrent.LinkedBlockingDeque;
 
 @Getter
 @Setter
@@ -19,6 +17,7 @@ public class Session {
     public static enum VALUE {
         UNDEFINED(-1);
         long longV;
+
         VALUE(long longV) {
             this.longV = longV;
         }
@@ -31,7 +30,7 @@ public class Session {
     private Instant startedTime;
     private Timer timer;
     private UpperPanel upperPanel;
-    private final List<Long> momentarySpeedLettersTimeList = new ArrayList<>(); //used to calculate momentary typing speed in last N seconds
+    private final Deque<Long> momentarySpeedLettersTimeList = new LinkedBlockingDeque<>(); //used to calculate momentary typing speed in last N seconds
     private final long momentarySpeedRange = 30000; //(ms) in what period is momentary typing speed calculated
 
     public void recalcTimeMs() {
@@ -71,14 +70,11 @@ public class Session {
 
     public void removeOldLetterTimes() {
         boolean checkList = true;
-        synchronized (momentarySpeedLettersTimeList) {
-            while (checkList && !momentarySpeedLettersTimeList.isEmpty()) {
-                int id = momentarySpeedLettersTimeList.size() - 1;
-                if (System.currentTimeMillis() - momentarySpeedLettersTimeList.get(id) > momentarySpeedRange) {
-                    momentarySpeedLettersTimeList.remove(id);
-                } else {
-                    checkList = false;
-                }
+        while (checkList && !momentarySpeedLettersTimeList.isEmpty()) {
+            if (System.currentTimeMillis() - momentarySpeedLettersTimeList.getLast() > momentarySpeedRange) {
+                momentarySpeedLettersTimeList.pollLast();
+            } else {
+                checkList = false;
             }
         }
     }
