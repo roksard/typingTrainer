@@ -51,6 +51,7 @@ public class Session {
         resetPrecalculatedListCountSum();
         currentStats = new Statistic();
         upperPanel.resetAllLabels();
+        momentarySpeedLettersTimeList.clear();
     }
 
     public long calcTotalTypedCount() {
