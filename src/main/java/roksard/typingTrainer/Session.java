@@ -73,13 +73,21 @@ public class Session {
         long timeMillis = calcCurrentRunningTime();
         if (timeMillis != 0) {
             double timeMinutes = ((double) timeMillis) / (1000 * 60);
-            average = getCurrentStats().getCount() / timeMinutes;
+            average = currentStats.getCount() / timeMinutes;
         }
         return average;
     }
 
     public double calcMomentaryTypingSpeed() {
-        return getMomentarySpeedLettersTimeList().size() / ((double)getMomentarySpeedRange()/1000.0) * 60;
+        if (momentarySpeedLettersTimeList.isEmpty()) {
+            return 0;
+        }
+        long last = momentarySpeedLettersTimeList.peekLast();
+        long delta = System.currentTimeMillis() - last;
+        if (delta > momentarySpeedRange) {
+            delta = momentarySpeedRange;
+        }
+        return momentarySpeedLettersTimeList.size() / ((double)delta/1000.0) * 60;
     }
 
     public void removeOldLetterTimes() {
