@@ -68,6 +68,20 @@ public class Session {
         statisticListCountSum = VALUE.UNDEFINED.getLongV();
     }
 
+    public double calcAverageTypingSpeed() {
+        double average = 0;
+        long timeMillis = calcCurrentRunningTime();
+        if (timeMillis != 0) {
+            double timeMinutes = ((double) timeMillis) / (1000 * 60);
+            average = getCurrentStats().getCount() / timeMinutes;
+        }
+        return average;
+    }
+
+    public double calcMomentaryTypingSpeed() {
+        return getMomentarySpeedLettersTimeList().size() / ((double)getMomentarySpeedRange()/1000.0) * 60;
+    }
+
     public void removeOldLetterTimes() {
         boolean checkList = true;
         while (checkList && !momentarySpeedLettersTimeList.isEmpty()) {
