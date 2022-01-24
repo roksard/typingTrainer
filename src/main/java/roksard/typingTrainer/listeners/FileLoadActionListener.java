@@ -60,7 +60,6 @@ public class FileLoadActionListener implements ActionListener {
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-                System.out.println("loaded: " + text.length());
                 if (text.length() > 500_000) {
                     JOptionPane.showMessageDialog(frame, "Error: File size is too big, please try to split it, max file < 500kb" );
                     return;
