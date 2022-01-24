@@ -1,6 +1,5 @@
 package roksard.typingTrainer;
 
-import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -8,7 +7,7 @@ import java.util.concurrent.ThreadFactory;
 public class Main {
     public static void main(String[] args) {
         Gui gui = new Gui();
-        ExecutorService executorService = Executors.newSingleThreadExecutor(new ThreadFactory() {
+        ExecutorService executorService = Executors.newFixedThreadPool(2, new ThreadFactory() {
             @Override
             public Thread newThread(Runnable r) {
                 Thread thread = new Thread(r);
@@ -19,9 +18,8 @@ public class Main {
         executorService.submit(new Runnable() {
             @Override
             public void run() {
-                gui.start();
+                gui.start(executorService);
             }
         });
-        executorService.shutdown();
     }
 }

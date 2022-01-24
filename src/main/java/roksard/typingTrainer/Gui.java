@@ -10,6 +10,7 @@ import roksard.typingTrainer.pojo.Config;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.util.concurrent.ExecutorService;
 
 @Getter
 public class Gui {
@@ -30,7 +31,7 @@ public class Gui {
     };
 
 
-    public void start() {
+    public void start(ExecutorService executorService) {
         LOGGER.debug("Initialisation start");
         Session session = new Session();
         session.setStatisticList(config.getStatistic());
@@ -59,7 +60,7 @@ public class Gui {
         MenuBar menuBar = new MenuBar();
         Menu mFile = new Menu("File");
         MenuItem miLoad = new MenuItem("Load");
-        FileLoadActionListener fileLoadActionListener = new FileLoadActionListener(frame, epText, config);
+        FileLoadActionListener fileLoadActionListener = new FileLoadActionListener(frame, epText, config, executorService);
         miLoad.addActionListener(fileLoadActionListener);
         mFile.add(miLoad);
         menuBar.add(mFile);
