@@ -104,9 +104,7 @@ public class UpperPanel extends JPanel {
         seconds = seconds % 60;
         StringBuilder result = new StringBuilder();
         result.insert(0, String.format("%02d", seconds));
-        if (minutes > 0 || hours > 0) {
-            result.insert(0, String.format("%02d:", minutes));
-        }
+        result.insert(0, String.format("%02d:", minutes));
         if (hours > 0) {
             result.insert(0, String.format("%02d:", hours));
         }
