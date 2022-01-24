@@ -23,6 +23,7 @@ public class BtStartActionListener implements ActionListener {
         if (session.isStarted()) {
             btStart.setText("Stop");
             session.setStartedTime(Instant.now());
+            session.resetMomentarySpeed();
             Timer timer = new Timer(true);
             session.setTimer(timer);
             timer.schedule(new TimerTask() {

@@ -51,6 +51,10 @@ public class Session {
         resetPrecalculatedListCountSum();
         currentStats = new Statistic();
         upperPanel.resetAllLabels();
+        resetMomentarySpeed();
+    }
+
+    public void resetMomentarySpeed() {
         momentarySpeedLettersTimeList.clear();
     }
 
