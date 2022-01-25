@@ -19,7 +19,7 @@ public class Config {
     private Integer winW;
     private Integer winH;
     private String fileName;
-    private Integer filePos;
+    private Long filePos;
     private List<Statistic> statistic = new ArrayList<>();
     String fontName;
     private Integer fontStyle;

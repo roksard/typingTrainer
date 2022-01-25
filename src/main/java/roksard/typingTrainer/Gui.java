@@ -20,19 +20,19 @@ public class Gui {
     JFrame frame;
     final String TITLE = "typing Trainer";
     final roksard.graphicsAwt.Graphics GRAPHICS = new roksard.graphicsAwt.Graphics();
-    Logger LOGGER = LogManager.getLogger(Main.class);
+    Logger logger = LogManager.getLogger(Main.class);
     final Thread.UncaughtExceptionHandler exceptionHandler = new Thread.UncaughtExceptionHandler() {
         @Override
         public void uncaughtException(Thread t, Throwable e) {
             JOptionPane.showMessageDialog(frame, "Error: " + e.toString() + ": " + e.getMessage());
-            LOGGER.error("Error: ", e);
+            logger.error("Error: ", e);
             System.exit(-1);
         }
     };
 
 
     public void start(ExecutorService executorService) {
-        LOGGER.debug("Initialisation start");
+        logger.debug("Initialisation start");
         Session session = new Session();
         session.setStatisticList(config.getStatistic());
 
@@ -52,6 +52,8 @@ public class Gui {
         epText.getCaret().setVisible(true);
         epText.addKeyListener(new EpTextKeyListener(epText, upperPanel));
         epText.addFocusListener(new EpTextFocusListener(epText));
+        EpTextCaretListener epTextCaretListener = new EpTextCaretListener();
+        epText.addCaretListener(epTextCaretListener);
 
 
         JScrollPane jScrollPane = new JScrollPane(epText, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -64,6 +66,9 @@ public class Gui {
         miLoad.addActionListener(fileLoadActionListener);
         mFile.add(miLoad);
         menuBar.add(mFile);
+
+        epTextCaretListener.setEpText(epText);
+        epTextCaretListener.setFileLoadActionListener(fileLoadActionListener);
 
         Menu mSettings = new Menu("Settings");
         MenuItem miChooseFont = new MenuItem("Choose font");
@@ -81,7 +86,14 @@ public class Gui {
             frame.setLocationRelativeTo(null);
         }
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ConfigUpdater configUpdater = new ConfigUpdater(serializer, CONFIG_FILE, frame, epText, config, session);
+        ConfigUpdater configUpdater = new ConfigUpdater();
+        configUpdater.setSerializer(serializer);
+        configUpdater.setCONFIG_FILE(CONFIG_FILE);
+        configUpdater.setFrame(frame);
+        configUpdater.setEpText(epText);
+        configUpdater.setConfig(config);
+        configUpdater.setSession(session);
+        configUpdater.setFileLoadActionListener(fileLoadActionListener);
         frame.addWindowListener(new MainWindowListener(configUpdater));
         frame.pack();
 
@@ -91,6 +103,7 @@ public class Gui {
         if (config.getFileName() != null) {
             File file = new File(config.getFileName());
             if (file.exists()) {
+                logger.debug("load file at pos: {} ", config.getFilePos());
                 fileLoadActionListener.loadFile(file, config.getFilePos());
             }
         }
@@ -99,6 +112,6 @@ public class Gui {
             chooseFontActionListener.setFont(font);
         }
 
-        LOGGER.debug("Initialisation succesful");
+        logger.debug("Initialisation succesful");
     }
 }

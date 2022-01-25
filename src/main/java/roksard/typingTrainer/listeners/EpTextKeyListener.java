@@ -1,5 +1,7 @@
 package roksard.typingTrainer.listeners;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import roksard.typingTrainer.UpperPanel;
 import roksard.typingTrainer.pojo.Statistic;
 
@@ -7,14 +9,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Deque;
-import java.util.List;
 
 public class EpTextKeyListener implements KeyListener {
     private JTextArea epText;
     private UpperPanel upperPanel;
     private Color DARK_GREEN = Color.getHSBColor(0.33f, 1, 0.5f);
     private Color RED = Color.RED;
+    private Logger logger = LogManager.getLogger(this.getClass());
 
     public EpTextKeyListener(JTextArea epText, UpperPanel upperPanel) {
         this.epText = epText;

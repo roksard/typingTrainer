@@ -1,5 +1,9 @@
 package roksard.typingTrainer.listeners;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import roksard.typingTrainer.pojo.Config;
 
 import javax.swing.*;
@@ -14,14 +18,19 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
+@Setter
+@Getter
 public class FileLoadActionListener implements ActionListener {
     private JFrame frame;
     private JTextArea epText;
     private Config config;
     private ExecutorService executorService;
+    private long seekPos;
+    final int chunkSize = 10_000;
+    final int posInChunk = chunkSize * 50 / 100; //at 50% of chunk
+    private File currentFile;
+    Logger logger = LogManager.getLogger(this.getClass());
 
     public FileLoadActionListener(JFrame frame, JTextArea epText, Config config, ExecutorService executorService) {
         this.frame = frame;
@@ -30,46 +39,63 @@ public class FileLoadActionListener implements ActionListener {
         this.executorService = executorService;
     }
 
-    public void loadFile(File file, Integer position) {
-        loadFile(file);
-        if (position != null) {
-            epText.setCaretPosition(position);
-        }
-    }
-
-    public void loadFile(File file) {
+    public void loadFile(File file, long filePos) {
+        logger.debug(">>load file at pos: {} ", filePos);
         executorService.submit(new Runnable() {
             @Override
             public void run() {
-                StringBuilder text = new StringBuilder();
+                long seekPos = Math.max(0, filePos - posInChunk);
+                if (currentFile == file && getSeekPos() == 0 && seekPos == 0) {
+                    logger.debug("trying to open file at 0 pos twice");
+                    return; //trying to open same file at same pos
+                }
+                if (currentFile == file && getSeekPos() + chunkSize >= file.length() && seekPos >= getSeekPos()) {
+                    logger.debug("trying to open file at EOF twice");
+                    return; //trying to open same file at same pos (eof)
+                }
+                CharBuffer charBuffer;
                 try (
                         FileChannel fileChannel = FileChannel.open(Paths.get(file.getAbsolutePath()));
                 ) {
-                    ByteBuffer bb = ByteBuffer.allocate(1024 * 500);
-                    int read = 0;
-                    while ((read = fileChannel.read(bb)) > 0) {
-                        bb.limit(read);
-                        bb.rewind();
-                        CharBuffer charBuffer = StandardCharsets.UTF_8.decode(bb);
-                        text.append(charBuffer.toString());
-                        bb.clear();
-                        if (Thread.interrupted()) {
-                            return;
-                        }
-                    }
+                    fileChannel.position(seekPos);
+                    ByteBuffer bb = ByteBuffer.allocate(chunkSize);
+                    int read = fileChannel.read(bb);
+                    bb.limit(read);
+                    bb.rewind();
+                    charBuffer = StandardCharsets.UTF_8.decode(bb);
                 } catch (Exception e) {
+                    logger.error("Error: ", e);
                     throw new RuntimeException(e);
                 }
-                if (text.length() > 500_000) {
-                    JOptionPane.showMessageDialog(frame, "Error: File size is too big, please try to split it, max file < 500kb" );
-                    return;
-                }
-                epText.setText(text.toString());
-                epText.setCaretPosition(0);
+                currentFile = file;
+                epText.setText(charBuffer.toString());
+                epText.setCaretPosition(calcCaretPosOffsetByBytes(epText.getText(), (int)(filePos - seekPos)));
                 epText.getCaret().setVisible(true);
                 config.setFileName(file.getAbsolutePath());
+                setSeekPos(seekPos);
             }
         });
+    }
+
+    public int calcCaretPosOffsetByBytes(String text, int byteOffset) {
+        /**TODO check if this method works correct
+         *
+         * Initialisation start {}
+         * load file at pos: 4092  {}
+         * >>load file at pos: 4092  {}
+         * Initialisation succesful {}
+         * save file pos: 7305 {}        ??? check why this happens, here should save at same pos 4092
+         */
+        for (int i = byteOffset; i < text.length(); i++) {
+            if (text.substring(0, i).getBytes(StandardCharsets.UTF_8).length >= byteOffset) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    public long calcFilePos() {
+        return getSeekPos() + epText.getText().substring(0, epText.getCaretPosition()).getBytes(StandardCharsets.UTF_8).length;
     }
 
     @Override
@@ -78,6 +104,6 @@ public class FileLoadActionListener implements ActionListener {
         fileDialog.setVisible(true);
         Arrays.stream(fileDialog.getFiles())
                 .findFirst()
-                .ifPresent(this::loadFile);
+                .ifPresent(file -> loadFile(file, 0));
     }
 }
