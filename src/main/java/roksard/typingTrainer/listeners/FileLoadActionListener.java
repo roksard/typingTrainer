@@ -80,6 +80,7 @@ public class FileLoadActionListener implements ActionListener {
                     epText.getCaret().setVisible(true);
                     config.setFileName(file.getAbsolutePath());
                     setSeekPos(seekPos);
+                    System.out.println("Startup time: " + (System.currentTimeMillis() - Main.startTime));
                 }
             });
         }
