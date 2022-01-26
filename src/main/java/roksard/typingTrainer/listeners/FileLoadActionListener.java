@@ -88,6 +88,7 @@ public class FileLoadActionListener implements ActionListener {
          */
         for (int i = byteOffset; i < text.length(); i++) {
             if (text.substring(0, i).getBytes(StandardCharsets.UTF_8).length >= byteOffset) {
+                logger.debug("calcCaretPosOffsetByBytes result {}", i);
                 return i;
             }
         }
