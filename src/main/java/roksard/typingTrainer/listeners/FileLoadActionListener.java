@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import roksard.typingTrainer.Main;
 import roksard.typingTrainer.pojo.Config;
 
 import javax.swing.*;
@@ -81,6 +82,7 @@ public class FileLoadActionListener implements ActionListener {
                     epText.getCaret().setVisible(true);
                     config.setFileName(file.getAbsolutePath());
                     setSeekPos(seekPos);
+                    System.out.println("Startup time: " + (System.currentTimeMillis() - Main.startTime));
                 }
             });
         }

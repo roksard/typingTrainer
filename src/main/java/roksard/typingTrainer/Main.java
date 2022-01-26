@@ -11,8 +11,10 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(basePackages = "roksard.*")
 @Configuration("roksard.typingTrainer.SpringConfiguration")
 public class Main {
+    public static long startTime;
     static Logger logger = LogManager.getLogger(Main.class);
     public static void main(String[] args) {
+        startTime = System.currentTimeMillis();
         new AnnotationConfigApplicationContext("roksard.*").start();
     }
 }
