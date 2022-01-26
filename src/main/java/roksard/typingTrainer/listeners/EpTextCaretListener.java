@@ -7,7 +7,6 @@ import org.apache.logging.log4j.Logger;
 import javax.swing.*;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
-import java.nio.charset.StandardCharsets;
 
 @Setter
 public class EpTextCaretListener implements CaretListener {

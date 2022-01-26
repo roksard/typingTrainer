@@ -78,15 +78,7 @@ public class FileLoadActionListener implements ActionListener {
     }
 
     public int calcCaretPosOffsetByBytes(String text, int byteOffset) {
-        /**TODO check if this method works correct
-         *
-         * Initialisation start {}
-         * load file at pos: 4092  {}
-         * >>load file at pos: 4092  {}
-         * Initialisation succesful {}
-         * save file pos: 7305 {}        ??? check why this happens, here should save at same pos 4092
-         */
-        for (int i = byteOffset; i < text.length(); i++) {
+        for (int i = 0; i < text.length(); i++) {
             if (text.substring(0, i).getBytes(StandardCharsets.UTF_8).length >= byteOffset) {
                 logger.debug("calcCaretPosOffsetByBytes result {}", i);
                 return i;

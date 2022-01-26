@@ -1,6 +1,8 @@
 package roksard.typingTrainer.listeners;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import roksard.typingTrainer.ConfigUpdater;
 
 import java.awt.event.WindowEvent;
