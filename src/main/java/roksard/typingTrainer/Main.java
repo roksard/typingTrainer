@@ -5,11 +5,9 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "roksard.*")
-@Configuration("roksard.typingTrainer.SpringConfiguration")
 public class Main {
     public static long startTime;
     static Logger logger = LogManager.getLogger(Main.class);
