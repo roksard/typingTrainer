@@ -1,6 +1,6 @@
 package roksard.typingTrainer;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,15 +14,15 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Setter
+@RequiredArgsConstructor
 public class ConfigUpdater {
-    private JsonSerializer<Config> serializer;
-    private String CONFIG_FILE;
-    private JFrame frame;
-    private JTextArea epText;
-    private Config config;
-    private Session session;
-    private FileLoadActionListener fileLoadActionListener;
+    private final JsonSerializer<Config> serializer;
+    private final String CONFIG_FILE;
+    private final JFrame frame;
+    private final JTextArea epText;
+    private final Config config;
+    private final Session session;
+    private final FileLoadActionListener fileLoadActionListener;
     private Logger logger = LogManager.getLogger(this.getClass());
 
 

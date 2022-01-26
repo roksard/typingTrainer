@@ -86,14 +86,7 @@ public class Gui {
             frame.setLocationRelativeTo(null);
         }
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ConfigUpdater configUpdater = new ConfigUpdater();
-        configUpdater.setSerializer(serializer);
-        configUpdater.setCONFIG_FILE(CONFIG_FILE);
-        configUpdater.setFrame(frame);
-        configUpdater.setEpText(epText);
-        configUpdater.setConfig(config);
-        configUpdater.setSession(session);
-        configUpdater.setFileLoadActionListener(fileLoadActionListener);
+        ConfigUpdater configUpdater = new ConfigUpdater(serializer, CONFIG_FILE, frame, epText, config, session, fileLoadActionListener);
         frame.addWindowListener(new MainWindowListener(configUpdater));
         frame.pack();
 
