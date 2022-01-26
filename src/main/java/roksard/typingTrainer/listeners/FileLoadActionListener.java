@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import roksard.typingTrainer.Main;
 import roksard.typingTrainer.pojo.Config;
 
 import javax.swing.*;
