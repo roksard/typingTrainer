@@ -27,7 +27,7 @@ public class FileLoadActionListener implements ActionListener {
     private Config config;
     private ExecutorService executorService;
     private long seekPos;
-    final int chunkSize = 10_000;
+    final int chunkSize = 50000;
     final int posInChunk = chunkSize * 50 / 100; //at 50% of chunk
     private File currentFile;
     Logger logger = LogManager.getLogger(this.getClass());
