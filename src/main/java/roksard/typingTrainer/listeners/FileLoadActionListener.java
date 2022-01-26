@@ -94,7 +94,7 @@ public class FileLoadActionListener implements ActionListener {
         return 0;
     }
 
-    public long calcFilePos() {
+    public long calcFilePosByCurrentPosAndCaretPos() {
         return getSeekPos() + epText.getText().substring(0, epText.getCaretPosition()).getBytes(StandardCharsets.UTF_8).length;
     }
 

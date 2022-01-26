@@ -19,7 +19,7 @@ public class EpTextCaretListener implements CaretListener {
     public void caretUpdate(CaretEvent e) {
         double relativePos = epText.getCaretPosition() / (double)epText.getText().length();
         if (relativePos < 0.1 || relativePos > 0.9 ) {
-            fileLoadActionListener.loadFile(fileLoadActionListener.getCurrentFile(), fileLoadActionListener.calcFilePos());
+            fileLoadActionListener.loadFile(fileLoadActionListener.getCurrentFile(), fileLoadActionListener.calcFilePosByCurrentPosAndCaretPos());
         }
     }
 }

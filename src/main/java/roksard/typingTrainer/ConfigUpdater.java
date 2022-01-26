@@ -31,7 +31,7 @@ public class ConfigUpdater {
         config.setWinY((int)frame.getLocation().getY());
         config.setWinW(frame.getWidth());
         config.setWinH(frame.getHeight());
-        config.setFilePos(fileLoadActionListener.calcFilePos());
+        config.setFilePos(fileLoadActionListener.calcFilePosByCurrentPosAndCaretPos());
         logger.debug("save file pos: {}", config.getFilePos());
         session.recalcTimeMs();
         List<Statistic> statisticList = new ArrayList<>(session.getStatisticList());
