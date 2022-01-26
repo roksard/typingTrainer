@@ -6,7 +6,7 @@
 
     <Appenders>
         <Appender type="Console" name="STDOUT">
-            <Layout type="PatternLayout" pattern="%m %X%n"/>
+            <Layout type="PatternLayout" pattern="%C{1.} %m %X%n"/>
             <Filters>
                 <Filter type="MarkerFilter" marker="FLOW" onMatch="DENY" onMismatch="NEUTRAL"/>
                 <Filter type="MarkerFilter" marker="EXCEPTION" onMatch="DENY" onMismatch="ACCEPT"/>
