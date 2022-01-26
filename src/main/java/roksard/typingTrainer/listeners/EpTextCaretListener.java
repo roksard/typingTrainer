@@ -1,17 +1,21 @@
 package roksard.typingTrainer.listeners;
 
-import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
-@Setter
+@Component
 public class EpTextCaretListener implements CaretListener {
+    @Autowired
     JTextArea epText;
+    @Autowired
     FileLoadActionListener fileLoadActionListener;
+
     Logger logger = LogManager.getLogger(this.getClass());
 
     @Override

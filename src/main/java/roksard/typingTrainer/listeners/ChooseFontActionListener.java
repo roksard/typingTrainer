@@ -1,6 +1,7 @@
 package roksard.typingTrainer.listeners;
 
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import paint.JFontChooser;
 import roksard.typingTrainer.pojo.Config;
 
@@ -9,10 +10,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-@AllArgsConstructor
+@Component
 public class ChooseFontActionListener implements ActionListener {
+    @Autowired
     private JFrame frame;
+    @Autowired
     private JTextArea epText;
+    @Autowired
     private Config config;
 
     @Override

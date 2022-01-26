@@ -1,9 +1,10 @@
 package roksard.typingTrainer;
 
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import roksard.json_serializer.JsonSerializer;
 import roksard.typingTrainer.listeners.FileLoadActionListener;
 import roksard.typingTrainer.pojo.Config;
@@ -14,15 +15,23 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@RequiredArgsConstructor
+@Component
 public class ConfigUpdater {
-    private final JsonSerializer<Config> serializer;
-    private final String CONFIG_FILE;
-    private final JFrame frame;
-    private final JTextArea epText;
-    private final Config config;
-    private final Session session;
-    private final FileLoadActionListener fileLoadActionListener;
+    @Autowired
+    private JsonSerializer<Config> serializer;
+    @Autowired
+    private String configFile;
+    @Autowired
+    private JFrame frame;
+    @Autowired
+    private JTextArea epText;
+    @Autowired
+    private Config config;
+    @Autowired
+    private Session session;
+    @Autowired
+    private FileLoadActionListener fileLoadActionListener;
+
     private Logger logger = LogManager.getLogger(this.getClass());
 
 
@@ -42,7 +51,7 @@ public class ConfigUpdater {
         config.setFontName(epText.getFont().getFontName());
         config.setFontStyle(epText.getFont().getStyle());
         config.setFontSize(epText.getFont().getSize());
-        serializer.save(CONFIG_FILE, config);
+        serializer.save(configFile, config);
     }
 
     public Font getFont() {

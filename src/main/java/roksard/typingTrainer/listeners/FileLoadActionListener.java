@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import roksard.typingTrainer.pojo.Config;
 
 import javax.swing.*;
@@ -20,26 +22,25 @@ import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
-@Setter
+@Component
 @Getter
+@Setter
 public class FileLoadActionListener implements ActionListener {
+    @Autowired
     private JFrame frame;
+    @Autowired
     private JTextArea epText;
+    @Autowired
     private Config config;
+    @Autowired
     private ExecutorService executorService;
+
     private long seekPos;
     final int chunkSize = 50000;
     final int posInChunk = chunkSize * 50 / 100; //at 50% of chunk
     private File currentFile;
     Logger logger = LogManager.getLogger(this.getClass());
     private Future<?> loadFile;
-
-    public FileLoadActionListener(JFrame frame, JTextArea epText, Config config, ExecutorService executorService) {
-        this.frame = frame;
-        this.epText = epText;
-        this.config = config;
-        this.executorService = executorService;
-    }
 
     public void loadFile(File file, long filePos) {
         synchronized (this) {

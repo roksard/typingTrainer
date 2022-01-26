@@ -1,25 +1,18 @@
 package roksard.typingTrainer;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
+@SpringBootApplication
+@ComponentScan(basePackages = "roksard.*")
+@Configuration("roksard.typingTrainer.SpringConfiguration")
 public class Main {
+    static Logger logger = LogManager.getLogger(Main.class);
     public static void main(String[] args) {
-        Gui gui = new Gui();
-        ExecutorService executorService = Executors.newFixedThreadPool(2, new ThreadFactory() {
-            @Override
-            public Thread newThread(Runnable r) {
-                Thread thread = new Thread(r);
-                thread.setUncaughtExceptionHandler(gui.getExceptionHandler());
-                return thread;
-            }
-        });
-        executorService.submit(new Runnable() {
-            @Override
-            public void run() {
-                gui.start(executorService);
-            }
-        });
+        new AnnotationConfigApplicationContext("roksard.*").start();
     }
 }

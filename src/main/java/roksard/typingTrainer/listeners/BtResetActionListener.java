@@ -1,13 +1,15 @@
 package roksard.typingTrainer.listeners;
 
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import roksard.typingTrainer.UpperPanel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-@AllArgsConstructor
+@Component
 public class BtResetActionListener implements ActionListener {
+    @Autowired
     private UpperPanel upperPanel;
 
     @Override

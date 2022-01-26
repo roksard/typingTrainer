@@ -3,56 +3,78 @@ package roksard.typingTrainer;
 import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
 import roksard.json_serializer.JsonSerializer;
 import roksard.typingTrainer.listeners.*;
 import roksard.typingTrainer.pojo.Config;
 
+import javax.annotation.PostConstruct;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.util.concurrent.ExecutorService;
 
+@Component
 @Getter
 public class Gui {
-    final String CONFIG_FILE = "settings.p";
-    final JsonSerializer<Config> serializer = new JsonSerializer<>(Config.class);
-    final Config config = serializer.load(CONFIG_FILE, Config.DEFAULT);
-    JFrame frame;
     final String TITLE = "typing Trainer";
     final roksard.graphicsAwt.Graphics GRAPHICS = new roksard.graphicsAwt.Graphics();
     Logger logger = LogManager.getLogger(Main.class);
-    final Thread.UncaughtExceptionHandler exceptionHandler = new Thread.UncaughtExceptionHandler() {
-        @Override
-        public void uncaughtException(Thread t, Throwable e) {
-            JOptionPane.showMessageDialog(frame, "Error: " + e.toString() + ": " + e.getMessage());
-            logger.error("Error: ", e);
-            System.exit(-1);
-        }
-    };
 
+    @Autowired
+    JFrame frame;
+    @Autowired
+    Session session;
+    @Autowired
+    AnnotationConfigApplicationContext appContext;
+    @Autowired
+    JsonSerializer<Config> serializer;
+    @Autowired
+    Config config;
+    @Autowired
+    String configFile;
+    @Autowired
+    JTextArea epText;
+    @Autowired
+    ConfigUpdater configUpdater;
+    @Autowired
+    FileLoadActionListener fileLoadActionListener;
+    @Autowired
+    MainWindowListener mainWindowListener;
+    @Autowired
+    EpTextFocusListener epTextFocusListener;
+    @Autowired
+    EpTextKeyListener epTextKeyListener;
+    @Autowired
+    ChooseFontActionListener chooseFontActionListener;
+    @Autowired
+    ExecutorService executorService;
+    @Autowired
+    EpTextCaretListener epTextCaretListener;
+    @Autowired
+    UpperPanel upperPanel;
 
-    public void start(ExecutorService executorService) {
+    @PostConstruct
+    public void start() {
+
         logger.debug("Initialisation start");
-        Session session = new Session();
         session.setStatisticList(config.getStatistic());
 
-        frame = new JFrame();
         frame.setTitle(TITLE);
 
-        UpperPanel upperPanel = new UpperPanel(session);
         Container contentPane = frame.getContentPane();
         contentPane.add(upperPanel, BorderLayout.PAGE_START);
 
-        JTextArea epText = new JTextArea("This program allows you to read a book and simultaneously type it on a keyboard.\n" +
+        epText.setText("This program allows you to read a book and simultaneously type it on a keyboard.\n" +
                 "Use Menu File -> Load to load a file. This can be some book or any other text, that you would like to practice your typing on. \n" +
-                "You can start typing right now, but if you want to see statistics, first press Start button. This will create a new session and will start counting your current statistic. You can pause session by pressing Stop, or you can create a new session by pressing Reset. ");
-
+                "You can start typing right now, but if you want to see statistics, first press Start button. This will create a new session and will start counting your current statistic. You can pause session by pressing Stop, or you can create a new session by pressing Reset.");
         epText.setLineWrap(true);
         epText.setEditable(false);
         epText.getCaret().setVisible(true);
-        epText.addKeyListener(new EpTextKeyListener(epText, upperPanel));
-        epText.addFocusListener(new EpTextFocusListener(epText));
-        EpTextCaretListener epTextCaretListener = new EpTextCaretListener();
+        epText.addKeyListener(epTextKeyListener);
+        epText.addFocusListener(epTextFocusListener);
         epText.addCaretListener(epTextCaretListener);
 
 
@@ -62,17 +84,12 @@ public class Gui {
         MenuBar menuBar = new MenuBar();
         Menu mFile = new Menu("File");
         MenuItem miLoad = new MenuItem("Load");
-        FileLoadActionListener fileLoadActionListener = new FileLoadActionListener(frame, epText, config, executorService);
         miLoad.addActionListener(fileLoadActionListener);
         mFile.add(miLoad);
         menuBar.add(mFile);
 
-        epTextCaretListener.setEpText(epText);
-        epTextCaretListener.setFileLoadActionListener(fileLoadActionListener);
-
         Menu mSettings = new Menu("Settings");
         MenuItem miChooseFont = new MenuItem("Choose font");
-        ChooseFontActionListener chooseFontActionListener = new ChooseFontActionListener(frame, epText, config);
         miChooseFont.addActionListener(chooseFontActionListener);
         mSettings.add(miChooseFont);
         menuBar.add(mSettings);
@@ -86,8 +103,7 @@ public class Gui {
             frame.setLocationRelativeTo(null);
         }
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ConfigUpdater configUpdater = new ConfigUpdater(serializer, CONFIG_FILE, frame, epText, config, session, fileLoadActionListener);
-        frame.addWindowListener(new MainWindowListener(configUpdater));
+        frame.addWindowListener(mainWindowListener);
         frame.pack();
 
         frame.setVisible(true);
