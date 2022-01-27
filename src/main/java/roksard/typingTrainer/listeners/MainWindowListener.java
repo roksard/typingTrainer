@@ -1,16 +1,19 @@
 package roksard.typingTrainer.listeners;
 
-import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import roksard.typingTrainer.ConfigUpdater;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-@RequiredArgsConstructor
+@Component
 public class MainWindowListener implements WindowListener {
-    private final ConfigUpdater configUpdater;
+    @Autowired
+    private ConfigUpdater configUpdater;
+
     private Logger logger = LogManager.getLogger(this.getClass());
 
     @Override

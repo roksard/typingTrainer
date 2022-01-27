@@ -2,6 +2,8 @@ package roksard.typingTrainer;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import roksard.typingTrainer.pojo.Statistic;
 
 import java.time.Instant;
@@ -9,6 +11,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.concurrent.LinkedBlockingDeque;
 
+@Component
 @Getter
 @Setter
 public class Session {
@@ -23,13 +26,15 @@ public class Session {
         }
     }
 
+    @Autowired
+    private UpperPanel upperPanel;
+
     private Statistic currentStats = new Statistic();
     private long statisticListCountSum = VALUE.UNDEFINED.getLongV();
     private List<Statistic> statisticList = new LinkedList<>();
     private boolean isStarted = false;
     private Instant startedTime;
     private Timer timer;
-    private UpperPanel upperPanel;
     private final Deque<Long> momentarySpeedLettersTimeList = new LinkedBlockingDeque<>(); //used to calculate momentary typing speed in last N seconds
     private final long momentarySpeedRange = 30000; //(ms) in what period is momentary typing speed calculated
 

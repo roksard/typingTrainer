@@ -2,6 +2,8 @@ package roksard.typingTrainer.listeners;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import roksard.typingTrainer.UpperPanel;
 import roksard.typingTrainer.pojo.Statistic;
 
@@ -10,17 +12,16 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+@Component
 public class EpTextKeyListener implements KeyListener {
+    @Autowired
     private JTextArea epText;
+    @Autowired
     private UpperPanel upperPanel;
+
     private Color DARK_GREEN = Color.getHSBColor(0.33f, 1, 0.5f);
     private Color RED = Color.RED;
     private Logger logger = LogManager.getLogger(this.getClass());
-
-    public EpTextKeyListener(JTextArea epText, UpperPanel upperPanel) {
-        this.epText = epText;
-        this.upperPanel = upperPanel;
-    }
 
     @Override
     public void keyTyped(KeyEvent e) {

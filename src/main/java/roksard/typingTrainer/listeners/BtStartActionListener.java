@@ -1,8 +1,9 @@
 package roksard.typingTrainer.listeners;
 
-import lombok.AllArgsConstructor;
-import roksard.typingTrainer.UpperPanel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import roksard.typingTrainer.Session;
+import roksard.typingTrainer.UpperPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -11,8 +12,9 @@ import java.time.Instant;
 import java.util.Timer;
 import java.util.TimerTask;
 
-@AllArgsConstructor
+@Component
 public class BtStartActionListener implements ActionListener {
+    @Autowired
     private UpperPanel upperPanel;
 
     @Override

@@ -1,12 +1,16 @@
 package roksard.typingTrainer;
 
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import roksard.typingTrainer.listeners.BtResetActionListener;
 import roksard.typingTrainer.listeners.BtStartActionListener;
 
+import javax.annotation.PostConstruct;
 import javax.swing.*;
 import java.awt.*;
 
+@Component
 @Getter
 public class UpperPanel extends JPanel {
     private static final roksard.graphicsAwt.Graphics GRAPHICS = new roksard.graphicsAwt.Graphics();
@@ -17,16 +21,15 @@ public class UpperPanel extends JPanel {
     private JLabel lbSpeed;
     private JButton btStart;
     private JButton btReset;
+    @Autowired
     private Session session;
+    @Autowired
+    BtStartActionListener btStartActionListener;
+    @Autowired
+    BtResetActionListener btResetActionListener;
 
-    public UpperPanel(Session session) {
-        this.session = session;
-        init();
-    }
-
+    @PostConstruct
     private void init() {
-        session.setUpperPanel(this);
-
         setBackground(Color.WHITE);
         setPreferredSize(new Dimension(50, 50));
         setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -44,12 +47,12 @@ public class UpperPanel extends JPanel {
 
         btStart = new JButton("Start");
         btStart.setFocusable(false);
-        btStart.addActionListener(new BtStartActionListener(this));
+        btStart.addActionListener(btStartActionListener);
         add(btStart);
 
         btReset = new JButton("Reset");
         btReset.setFocusable(false);
-        btReset.addActionListener(new BtResetActionListener(this));
+        btReset.addActionListener(btResetActionListener);
         add(btReset);
 
         resetAllLabels();
