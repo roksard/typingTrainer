@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Deque;
 
 @Component
 public class EpTextKeyListener implements KeyListener {
@@ -39,7 +40,10 @@ public class EpTextKeyListener implements KeyListener {
                 upperPanel.setStatusIndicatorColor(DARK_GREEN);
                 if (upperPanel.getSession().isStarted()) {
                     currentStats.setCount(currentStats.getCount() + 1);
-                    upperPanel.getSession().getMomentarySpeedLettersTimeList().offerFirst(System.currentTimeMillis());
+                    Deque<Long> momentarySpeedLettersTimeList = upperPanel.getSession().getMomentarySpeedLettersTimeList();
+                    synchronized (momentarySpeedLettersTimeList) {
+                        momentarySpeedLettersTimeList.offerFirst(System.currentTimeMillis());
+                    }
                 }
                 if (isCRLF) {
                     epText.moveCaretPosition(caretPosition + 2);; //extra skip for "\r\n" new line characters combo

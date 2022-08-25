@@ -2,6 +2,8 @@ package roksard.typingTrainer;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import roksard.typingTrainer.pojo.Statistic;
@@ -15,6 +17,8 @@ import java.util.concurrent.LinkedBlockingDeque;
 @Getter
 @Setter
 public class Session {
+
+    private Logger logger = LogManager.getLogger(this.getClass());
 
     @Getter
     public static enum VALUE {
@@ -36,7 +40,7 @@ public class Session {
     private Instant startedTime;
     private Timer timer;
     private final Deque<Long> momentarySpeedLettersTimeList = new LinkedBlockingDeque<>(); //used to calculate momentary typing speed in last N seconds
-    private final long momentarySpeedRange = 30000; //(ms) in what period is momentary typing speed calculated
+    private final long momentarySpeedRange = 5000; //(ms) in what period is momentary typing speed calculated
 
     public void recalcTimeMs() {
         currentStats.setTimeMs(calcCurrentRunningTime());
@@ -60,7 +64,9 @@ public class Session {
     }
 
     public void resetMomentarySpeed() {
-        momentarySpeedLettersTimeList.clear();
+        synchronized (momentarySpeedLettersTimeList) {
+            momentarySpeedLettersTimeList.clear();
+        }
     }
 
     public long calcTotalTypedCount() {
@@ -89,24 +95,24 @@ public class Session {
     }
 
     public double calcMomentaryTypingSpeed() {
-        if (momentarySpeedLettersTimeList.isEmpty()) {
-            return 0;
+        removeOldLetterTimes();
+        synchronized (momentarySpeedLettersTimeList) {
+            if (momentarySpeedLettersTimeList.isEmpty()) {
+                return 0;
+            }
+            return momentarySpeedLettersTimeList.size() / (double)momentarySpeedRange * 1000 * 60;
         }
-        long last = momentarySpeedLettersTimeList.peekLast();
-        long delta = System.currentTimeMillis() - last;
-        if (delta > momentarySpeedRange) {
-            delta = momentarySpeedRange;
-        }
-        return momentarySpeedLettersTimeList.size() / ((double)delta/1000.0) * 60;
     }
 
     public void removeOldLetterTimes() {
         boolean checkList = true;
-        while (checkList && !momentarySpeedLettersTimeList.isEmpty()) {
-            if (System.currentTimeMillis() - momentarySpeedLettersTimeList.getLast() > momentarySpeedRange) {
-                momentarySpeedLettersTimeList.pollLast();
-            } else {
-                checkList = false;
+        synchronized (momentarySpeedLettersTimeList) {
+            while (checkList && !momentarySpeedLettersTimeList.isEmpty()) {
+                if (System.currentTimeMillis() - momentarySpeedLettersTimeList.getLast() > momentarySpeedRange) {
+                    momentarySpeedLettersTimeList.pollLast();
+                } else {
+                    checkList = false;
+                }
             }
         }
     }
