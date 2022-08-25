@@ -38,6 +38,8 @@ public class Gui {
     @Autowired
     JTextArea epText;
     @Autowired
+    JScrollPane epTextScrollPane;
+    @Autowired
     ConfigUpdater configUpdater;
     @Autowired
     FileLoadActionListener fileLoadActionListener;
@@ -77,9 +79,7 @@ public class Gui {
         epText.addFocusListener(epTextFocusListener);
         epText.addCaretListener(epTextCaretListener);
 
-
-        JScrollPane jScrollPane = new JScrollPane(epText, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        contentPane.add(jScrollPane, BorderLayout.CENTER);
+        contentPane.add(epTextScrollPane, BorderLayout.CENTER);
 
         MenuBar menuBar = new MenuBar();
         Menu mFile = new Menu("File");

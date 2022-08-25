@@ -2,6 +2,7 @@ package roksard.typingTrainer;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
 import roksard.json_serializer.JsonSerializer;
@@ -42,6 +43,11 @@ public class SpringConfiguration {
     @Bean
     JTextArea epText() {
         return new JTextArea();
+    }
+
+    @Bean
+    JScrollPane epTextScrollPane(@Autowired JTextArea epText) {
+        return new JScrollPane(epText, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     }
 
     @Bean
