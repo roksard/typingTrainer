@@ -26,6 +26,9 @@ public class EpTextKeyListener implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
+        if (!upperPanel.getSession().isStarted()) {
+            return;
+        }
         Statistic currentStats = upperPanel.getSession().getCurrentStats();
         String text = epText.getText();
         char userInput = e.getKeyChar();
