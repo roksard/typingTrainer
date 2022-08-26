@@ -3,8 +3,8 @@ package roksard.typingTrainer;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import roksard.json_serializer.JsonSerializer;
 import roksard.typingTrainer.pojo.Config;
 
@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 
-@SpringBootConfiguration
+@Configuration
 public class SpringConfiguration {
     private final JsonSerializer<Config> serializer1 = new JsonSerializer<>(Config.class);
     private final JFrame frame1 = new JFrame();
@@ -23,7 +23,6 @@ public class SpringConfiguration {
     public JsonSerializer<Config> serializer() {
         return serializer1;
     }
-
 
     @Bean
     public Config config() {
