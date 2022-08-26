@@ -73,6 +73,7 @@ public class Gui {
                 "Use Menu File -> Load to load a file. This can be some book or any other text, that you would like to practice your typing on. \n" +
                 "You can start typing right now, but if you want to see statistics, first press Start button. This will create a new session and will start counting your current statistic. You can pause session by pressing Stop, or you can create a new session by pressing Reset.");
         epText.setLineWrap(true);
+        epText.setWrapStyleWord(true);
         epText.setEditable(false);
         epText.getCaret().setVisible(true);
         epText.addKeyListener(epTextKeyListener);
