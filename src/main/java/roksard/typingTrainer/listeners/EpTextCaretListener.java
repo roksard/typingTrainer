@@ -27,6 +27,7 @@ public class EpTextCaretListener implements CaretListener {
         try {
             double caretYPos = epText.modelToView(epText.getCaretPosition()).getY();
             Rectangle visibleRect = epText.getVisibleRect();
+            logger.debug("font height {}", epText.getFontMetrics(epText.getFont()).getHeight());
             if ((caretYPos + (epText.getFontMetrics(epText.getFont()).getHeight()*2))
                     > (visibleRect.getY() + visibleRect.getHeight())
             ) {
