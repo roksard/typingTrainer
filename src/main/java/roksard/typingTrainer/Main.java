@@ -14,11 +14,7 @@ public class Main {
     public static long startTime;
     static Logger logger = LogManager.getLogger(Main.class);
     public static void main(String[] args) {
-        startTime = System.currentTimeMillis();
-//        new AnnotationConfigApplicationContext("roksard.*").start();
-        SpringApplicationBuilder builder = new SpringApplicationBuilder(Main.class);
-        builder.headless(false);
-        builder.contextClass(AnnotationConfigApplicationContext.class);
-        ConfigurableApplicationContext context = builder.run(args);
+        new AnnotationConfigApplicationContext("roksard.*").start();
+
     }
 }

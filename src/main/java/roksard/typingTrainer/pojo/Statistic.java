@@ -1,19 +1,42 @@
 package roksard.typingTrainer.pojo;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.time.Instant;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class Statistic {
-    private Long createdEpoch = Instant.now().toEpochMilli();
-    private Long timeMs = 0L;
-    private Long count = 0L;
-    private Long errCount = 0L;
+	public Long getCreatedEpoch() {
+		return createdEpoch;
+	}
+
+	public void setCreatedEpoch(Long createdEpoch) {
+		this.createdEpoch = createdEpoch;
+	}
+
+	public Long getTimeMs() {
+		return timeMs;
+	}
+
+	public void setTimeMs(Long timeMs) {
+		this.timeMs = timeMs;
+	}
+
+	public Long getCount() {
+		return count;
+	}
+
+	public void setCount(Long count) {
+		this.count = count;
+	}
+
+	public Long getErrCount() {
+		return errCount;
+	}
+
+	public void setErrCount(Long errCount) {
+		this.errCount = errCount;
+	}
+
+	private Long createdEpoch = Instant.now().toEpochMilli();
+	private Long timeMs = 0L;
+	private Long count = 0L;
+	private Long errCount = 0L;
 }
